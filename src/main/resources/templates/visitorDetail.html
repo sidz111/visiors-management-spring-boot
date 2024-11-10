@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<title>Visitor Details</title>
+<style>
+body {
+	background-color: black;
+	color: #212529;
+	font-family: 'Arial', sans-serif;
+}
+
+h2 {
+	font-size: 2rem;
+	font-weight: bold;
+}
+
+.table {
+	color: #495057;
+}
+
+.table th, .table td {
+	vertical-align: middle;
+}
+
+.btn {
+	border-radius: 25px;
+}
+
+.back-btn {
+	margin-top: 20px;
+}
+
+.card-header {
+	background-color: #007bff;
+	color: white;
+}
+
+.card-body {
+	background-color: #ffffff;
+}
+
+.alert {
+	font-size: 1.1rem;
+	padding: 15px;
+}
+</style>
+</head>
+<body>
+	<!-- Header Include -->
+	<div th:replace="~{base :: header}"></div>
+
+	<div class="container mt-5">
+		<!-- Display an error message if visitor is null -->
+		<div th:if="${visitor == null}">
+			<div class="alert alert-danger text-center" th:text="${visitorerror}"></div>
+		</div>
+
+		<!-- Display the visitor details if visitor is not null -->
+		<div th:if="${visitor != null}">
+			<div class="card shadow-lg bg-dark border-0 rounded">
+				<div class="card-header bg-warning text-dark text-center">
+					<h4 class="card-title text-uppercase font-weight-bold"
+						th:text="${visitor.name}"></h4>
+				</div>
+				<div class="card-body bg-dark">
+					<table class="table table-bordered table-striped">
+						<tr>
+							<th scope="row" class="font-weight-bold bg-dark text-white">Visitor
+								ID</th>
+							<td class="bg-dark text-white" th:text="${visitor.visitorId}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="font-weight-bold bg-dark text-white">Contact
+								Number</th>
+							<td class="bg-dark text-white" th:text="${visitor.contactNumber}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="font-weight-bold bg-dark text-white">Email</th>
+							<td class="bg-dark text-white" th:text="${visitor.email}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="font-weight-bold bg-dark text-white">Visit
+								Date</th>
+							<td class="bg-dark text-white" th:text="${visitor.visitDate}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="font-weight-bold bg-dark text-white">In
+								Time</th>
+							<td class="bg-dark text-white" th:text="${visitor.inTime}"></td>
+						</tr>
+						<tr>
+							<th scope="row" class="font-weight-bold bg-dark text-white">Out
+								Time</th>
+							<td class="bg-dark text-white" th:text="${visitor.outTime}"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="card-footer text-center">
+					<a href="#" th:href="@{/visitorlist}"
+						class="btn btn-warning btn-lg back-btn">Back to Visitor List</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-7S7BFkeu1kBVC+qExoGn90vM2yVdOg5w8Sc7FP4RAcK5M1G9+y8NUpz+YaeR9/U1"
+		crossorigin="anonymous"></script>
+</body>
+</html>
