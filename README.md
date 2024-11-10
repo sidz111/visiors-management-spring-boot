@@ -23,18 +23,19 @@ The **Visitors Management System** is a robust application designed to streamlin
    - Provides easy-to-use CRUD (Create, Read, Update, Delete) operations for managing visitor records.
 
 2. **Security Logging**:
+   - Added Spring Security
    - Records security actions associated with each visit.
    - Logs important actions, such as visitor entry and exit, in real-time, providing traceability and enhancing security measures.
 
-3. **Search and Filter**:
+4. **Search and Filter**:
    - Search visitor records and security logs by visitor ID.
    - Filter data easily to locate specific visitor information, enabling quick access to historical records.
 
-4. **User-friendly Interface**:
+5. **User-friendly Interface**:
    - Built with **Thymeleaf** templates, providing a seamless experience for administrators to manage visitor data and view logs.
    - Responsive and intuitive web interface optimized for clarity and ease of use.
 
-5. **Data Integrity and Security**:
+6. **Data Integrity and Security**:
    - Ensures data consistency and integrity with database-level constraints.
    - Uses Spring Security for securing sensitive endpoints (if required).
 
