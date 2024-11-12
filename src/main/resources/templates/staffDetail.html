@@ -68,6 +68,10 @@ h2 {
 				<div class="card-header bg-warning text-dark fw-bold text-center">
 					<h4 class="card-title text-uppercase font-weight-bold"
 						th:text="${staff.name}"></h4>
+				</div><br/>
+				
+				<div class="card-header bg-dark text-dark fw-bold text-center">
+					 <img th:src="@{'images/' +${staff.img}}" style="width: 20%; height: 200px; border-radius: 50%; object-fit: cover;"/>
 				</div>
 				<div class="card-body">
 					<table class="table table-dark table-bordered table-striped">

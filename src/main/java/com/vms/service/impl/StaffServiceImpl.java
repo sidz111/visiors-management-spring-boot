@@ -27,11 +27,12 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public Staff updateStaff(Long staffId, Staff staff) {
         if (staffRepository.existsById(staffId)) {
-            staff.setStaffId(staffId);
+            staff.setStaffId(staffId); // Set ID to the existing staff ID
             return staffRepository.save(staff);
         }
         throw new RuntimeException("Staff not found with id: " + staffId);
     }
+
 
     @Override
     public Staff getStaffById(Long staffId) {

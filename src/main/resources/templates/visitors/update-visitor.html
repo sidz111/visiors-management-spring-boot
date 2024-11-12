@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Visitor</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            background-color: black;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background: black;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{base :: header}"></div>
+
+    <div class="container form-container">
+		<div style="display: flex; justify-content: center;">
+			<img th:src="@{'/images/visitors/' + ${visitor.img}}"
+				style="width: 35%; height: 200px; border-radius: 50%; object-fit: cover;" />
+		</div>
+		<h2 class="text-warning">Update Visitor Details of</h2>
+		
+		<h2 class="text-warning" th:text="${visitor.name}"></h2>
+        <!-- Corrected the use of 'th:action' and enclosed all attribute values within Thymeleaf syntax with 'th:' -->
+       
+        <form th:action="@{/updatevisitor/{id}(id=${visitor.visitorId})}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" class="form-control" th:value="${visitor.name}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contactNumber">Contact Number:</label>
+                <input type="text" id="contactNumber" name="contactNumber" class="form-control" th:value="${visitor.contactNumber}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" th:value="${visitor.email}" required>
+            </div>
+
+            <!-- Uncommented the Date and Time fields if you need them in the form -->
+            <div class="form-group">
+                <label for="visitDate">Visit Date:</label>
+                <input type="date" id="visitDate" name="visitDate" class="form-control" th:value="${visitor.visitDate}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="inTime">In Time:</label>
+                <input type="time" id="inTime" name="inTime" class="form-control" th:value="${visitor.inTime}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="outTime">Out Time:</label>
+                <input type="time" id="outTime" name="outTime" class="form-control" th:value="${visitor.outTime}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="img">Photo:</label>
+                <input type="file" id="img" name="img" class="form-control-file" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Update Visitor</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

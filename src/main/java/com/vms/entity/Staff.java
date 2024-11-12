@@ -17,7 +17,7 @@ public class Staff {
     private String department;
     private String email;
     private String phoneNumber;
-//    private String img;
+    private String img;
 
 
     public Long getStaffId() {
@@ -60,12 +60,30 @@ public class Staff {
         this.phoneNumber = phoneNumber;
     }
 
-//	public String getImg() {
-//		return img;
-//	}
-//
-//	public void setImg(String img) {
-//		this.img = img;
-//	}
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+	public Staff(String name, String department, String email, String phoneNumber, String img) {
+		super();
+		this.name = name;
+		this.department = department;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.img = img;
+	}
+    
+
+	public Staff() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	
+	
 
 }

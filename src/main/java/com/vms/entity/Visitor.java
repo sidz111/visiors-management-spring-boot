@@ -17,7 +17,7 @@ public class Visitor {
     private String visitDate;
     private String inTime;
     private String outTime;
-//    private String img;
+    private String img;
 
 
     public Long getVisitorId() {
@@ -77,12 +77,29 @@ public class Visitor {
 		this.outTime = outTime;
 	}
 
-//	public String getImg() {
-//		return img;
-//	}
-//
-//	public void setImg(String img) {
-//		this.img = img;
-//	}
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+	public Visitor(String name, String contactNumber, String email, String visitDate, String inTime, String outTime,
+			String img) {
+		super();
+		this.name = name;
+		this.contactNumber = contactNumber;
+		this.email = email;
+		this.visitDate = visitDate;
+		this.inTime = inTime;
+		this.outTime = outTime;
+		this.img = img;
+	}
+
+	public Visitor() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 }
