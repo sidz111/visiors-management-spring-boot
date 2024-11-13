@@ -46,18 +46,16 @@ public class VisitorController {
 	        RedirectAttributes redirectAttributes) {
 
 	    try {
-	        // Decode Base64 image
-	        String base64Image = imgBase64.split(",")[1]; // Extract Base64 content
+	       
+	        String base64Image = imgBase64.split(",")[1];
 	        byte[] imageBytes = Base64.getDecoder().decode(base64Image);
 
-	        // Save the image to a file
 	        String fileName = "visitor_" + System.currentTimeMillis() + ".png";
-	        Path uploadDir = Paths.get("static/images/visitors"); // Directory for saving images
-	        Files.createDirectories(uploadDir); // Create directory if it doesn't exist
+	        Path uploadDir = Paths.get("static/images/visitors"); 
+	        Files.createDirectories(uploadDir);
 	        Path filePath = uploadDir.resolve(fileName);
 	        Files.write(filePath, imageBytes);
 
-	        // Save visitor details in the database
 	        Visitor visitor = new Visitor();
 	        visitor.setName(name);
 	        visitor.setContactNumber(contactNumber);
@@ -65,10 +63,9 @@ public class VisitorController {
 	        visitor.setVisitDate(visitDate);
 	        visitor.setInTime(inTime);
 	        visitor.setOutTime(outTime);
-	        visitor.setImg(fileName); // Save image filename in the database
+	        visitor.setImg(fileName);
 	        visitorService.addVisitor(visitor);
 
-	        // Add success message
 	        redirectAttributes.addFlashAttribute("message", "Visitor added successfully!");
 	    } catch (Exception e) {
 	        e.printStackTrace();

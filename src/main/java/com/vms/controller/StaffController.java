@@ -63,10 +63,9 @@ public class StaffController {
 	        staff.setDepartment(department);
 	        staff.setEmail(email);
 	        staff.setPhoneNumber(phoneNumber);
-	        staff.setImg(fileName); // Save image filename in the database
+	        staff.setImg(fileName);
 	        staffService.addStaff(staff);
 
-	        // Add success message
 	        redirectAttributes.addFlashAttribute("message", "Staff added successfully!");
 	    } catch (Exception e) {
 	        e.printStackTrace();
