@@ -102,7 +102,7 @@ body {
         const retakeButton = document.getElementById('retake');
         const capturedImgInput = document.getElementById('capturedImg');
 
-        // Access the user's camera
+        // Access the user's system laptop camera
         navigator.mediaDevices.getUserMedia({ video: true })
             .then(stream => {
                 video.srcObject = stream;
@@ -112,7 +112,7 @@ body {
                 alert("Unable to access the camera. Please check your permissions.");
             });
 
-        // Capture image from video feed
+        // Capture image from video of laptop
         captureButton.addEventListener('click', () => {
             const context = canvas.getContext('2d');
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -126,7 +126,7 @@ body {
             retakeButton.style.display = 'inline-block';
         });
 
-        // Retake image
+        // Retake image if any error
         retakeButton.addEventListener('click', () => {
             canvas.style.display = 'none';
             video.style.display = 'block';

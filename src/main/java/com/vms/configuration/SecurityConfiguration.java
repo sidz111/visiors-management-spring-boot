@@ -17,22 +17,22 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
 	@Bean
-	public UserDetailsService userDetailsService() {
+	UserDetailsService userDetailsService() {
 		UserDetails admin = User.withUsername("admin").password(passwordEncoder().encode("1234")).roles("ADMIN").build();
 		InMemoryUserDetailsManager detailsManager = new InMemoryUserDetailsManager(admin);
-		System.out.println("Password is : "+admin.getPassword());
-		System.out.println("Username is : "+admin.getUsername());
-		System.out.println("Autherity is : "+admin.getAuthorities());
+//		System.out.println("Password is : "+admin.getPassword());
+//		System.out.println("Username is : "+admin.getUsername());
+//		System.out.println("Autherity is : "+admin.getAuthorities());
 		return detailsManager;
 	}
 	
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+	SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable().authorizeHttpRequests()
 		.requestMatchers("/**")
 		.hasRole("ADMIN")
