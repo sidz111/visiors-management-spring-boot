@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql_db_docker
+    ports:
+    - "3307:3303"
+    environment:
+     MYSQL_ROOT_PASSWORD: root
+     MYSQL_DATABASE: vms
+   
+    volumes:
+    - ./mysql_data:/var/lib/mysql
+  
+  phpmyadmin:
+   image: phpmyadmin/phpmyadmin
+   container_name: phpmyadmin
+   ports:
+   - "8081:80"
+   environment:
+    PMA_HOST: mysql
+    PMA_PORT: 3303
+    PMA_USER: root
+    PMA_PASSWORD: root
+    
+   depends_on:
+     - mysql
+     
+  springboot:
+   build: .
+   container_name: vms_springboot_project
+   #something is missing so this is incomplete
