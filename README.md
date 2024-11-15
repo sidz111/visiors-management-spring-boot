@@ -9,7 +9,8 @@ The **Visitors Management System** is a robust application designed to streamlin
 ![Screenshot (286)](https://github.com/user-attachments/assets/e11bb7fd-1394-4f13-8ff2-f9e8ec1fe45e)
 
 ## Added live image capturing from device 
-![Screenshot (290)](https://github.com/user-attachments/assets/adaca006-e887-4bd7-90cb-7a443cc34613)
+![WhatsApp Image 2024-11-15 at 11 58 03 AM](https://github.com/user-attachments/assets/e36d37b2-6e66-43ab-884f-bcd4a20dada5)
+
 
 ## Updated views of project
 ![Screenshot (289)](https://github.com/user-attachments/assets/9bc7c00c-c151-4d61-9e0c-c395c31326fc)
