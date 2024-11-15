@@ -30,5 +30,10 @@ public class HomeController {
 		return "visitors/add-visitor";
 	}
 	
+	@GetMapping("/signin")
+	public String signinPage() {
+		return "signin";
+	}
+	
 
 }
