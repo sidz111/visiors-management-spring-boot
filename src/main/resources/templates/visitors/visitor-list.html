@@ -101,7 +101,8 @@
                     <tr th:each="v : ${visitorList}">
                         <td th:text="${v.visitorId}"></td>
                         <td><img th:src="@{'/images/visitors/' + ${v.img}}" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;" /></td>
-                        <td th:text="${v.name}"></td>
+                        <!-- <td th:text="${v.name}"></td> -->
+                        <td> <a class="text-decoration-none text-warning" th:href="@{'/visitor-search-id?visitorId=' + ${v.visitorId}}"><strong th:text="${v.name}"></strong>   </a></td>
                         <td th:text="${v.contactNumber}"></td>
                         <td th:text="${v.email}"></td>
                         <td th:text="${v.visitDate}"></td>

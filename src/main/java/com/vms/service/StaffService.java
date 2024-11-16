@@ -15,6 +15,8 @@ public interface StaffService {
 	List<Staff> getAllStaff();       //findAll
 
 	List<Staff> searchStaffByDepartment(String department);    //findByDepartment
+	
+	
 
 	void deleteStaffById(Long staffId);           //delete by id
 	

@@ -8,6 +8,7 @@
         rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossorigin="anonymous">
+        <link rel="icon" href="images/logo.png">
     <title>Home Page</title>
     <style>
         body {
@@ -63,6 +64,9 @@
             </div>
         </div>
     </div>
+    
+    
+    
 
     <!-- Total Staff Section -->
     <h2 class="text-center">Total Staffs</h2>
@@ -72,7 +76,7 @@
                 <div class="card bg-dark text-white">
                     <img th:src="@{'images/' + ${im.img}}" class="card-img-top" alt="Staff Image" height="200">
                     <div class="card-body text-center bg-dark">
-                        <h5 th:text="${im.name}"></h5>
+                        <a class="text-decoration-none" th:href="@{'/search-id?staffId=' + ${im.staffId}}"><strong th:text="${im.name}"></strong>   </a>
                         <p th:text="${im.department}" class="card-text"></p>
                         <a th:href="@{'/removestaff/' + ${im.staffId}}" class="btn btn-danger btn-sm me-2">Delete</a>
                         <a th:href="@{'/updatestaff/' + ${im.staffId}}" class="btn btn-success btn-sm">Update</a>

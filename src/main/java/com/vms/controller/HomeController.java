@@ -16,6 +16,8 @@ public class HomeController {
 	@GetMapping("/")
 	public String home(Model model) {
 		model.addAttribute("staffList", staffService.getAllStaff());
+//		List<Staff> list = 
+//		model.addAttribute("departments", staffService.searchStaffByDepartment())
 		return "index";
 	}
 	
