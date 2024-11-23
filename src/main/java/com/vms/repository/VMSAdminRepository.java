@@ -9,4 +9,5 @@ import com.vms.entity.VMSAdmin;
 public interface VMSAdminRepository extends JpaRepository<VMSAdmin, Integer>{
 
 	public VMSAdmin findByEmail(String email);
+	public String deleteByEmail(String email);
 }
