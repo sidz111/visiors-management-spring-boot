@@ -44,7 +44,7 @@ public class HomeController {
 	public String signinPage() {
 		return "signin";
 	}
-
+	
 	@GetMapping("/reset")
 	public String resetPassget(Model model) {
 		return "reset-pass";

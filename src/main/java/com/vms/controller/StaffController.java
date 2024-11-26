@@ -130,7 +130,7 @@ public class StaffController {
 	@GetMapping("/removestaff/{staffId}")
 	public String removeStaff(@PathVariable Long staffId) {
 		staffService.deleteStaffById(staffId);
-		return "redirect:/";
+		return "redirect:/stafflist";
 	}
 
 	@GetMapping("/search-id")
