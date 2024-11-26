@@ -24,22 +24,23 @@
             </div>
 
             <!-- Profile Picture -->
-            <div class="text-center position-relative mt-n5">
+            <div class="text-center bg-secondary text-white position-relative mt-n5">
                 <img th:src="@{'images/' + ${admin.profile}}" alt="Admin Profile Picture"
-                     class="rounded-circle border border-3 border-white" 
-                     style="width: 120px; height: 120px;">
+                     class="rounded-circle border border-3 border-warning" 
+                     style="width: 160px; height: 160px;">
             </div>
 
             <!-- Card Body -->
-            <div class="card-body text-center">
+            <div class="card-body bg-secondary text-white text-center">
                 <!-- Admin Details -->
-                <h2 class="card-title mb-3" th:text="${admin.name}">John Doe</h2>
-                <h5 class="card-subtitle text-muted mb-3" th:text="${admin.email}">johndoe@example.com</h5>
-                <p class="text-secondary">Role: <span th:text="${admin.role}">Administrator</span></p>
-                <p class="text-secondary">Admin ID: <span th:text="${admin.id}">12345</span></p>
+                <h2 class="card-title mb-3" th:text="${admin.name}"></h2>
+                <h5 class="card-subtitle  mb-3" th:text="${admin.email}"></h5>
+                <p class="text-white">Role: <span th:text="${admin.role}"></span></p>
+                <p class="text-white">Admin ID: <span th:text="${admin.id}"></span></p>
 
                 <!-- Edit Profile Button -->
-                <a href="/edit-profile" class="btn btn-primary mt-3">Edit Profile</a>
+                <a th:href="@{'/updateadmin/' + ${admin.id}}"
+						class="btn btn-warning btn-sm">Update</a>
             </div>
         </div>
     </div>

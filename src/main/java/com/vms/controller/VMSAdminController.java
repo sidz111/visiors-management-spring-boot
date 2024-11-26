@@ -1,11 +1,14 @@
 package com.vms.controller;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.vms.entity.Staff;
@@ -79,4 +83,49 @@ public class VMSAdminController {
         model.addAttribute("admin", admin);
 		return "admin-profile";
 	}
+	
+	
+	@GetMapping("/updateadmin/{id}")
+	public String showUpdateAdminForm(@PathVariable Integer id, Model model) {
+	   VMSAdmin admin = vmsAdminService.findVmasAdminById(id);
+	    if (admin != null) {
+	        model.addAttribute("admin", admin);
+	        return "update-admin";  // Display the update form
+	    } else {
+	        model.addAttribute("error", "Admin not found with ID: " + id);
+	        return "redirect:/admin-profile";
+	    }
+	}
+	
+	
+	
+	@PostMapping("/updateadmin/{id}")
+	public String updateAdmin(
+	        @PathVariable Integer id,
+	        @RequestParam("img") MultipartFile photoFile,
+	        @RequestParam("name") String name,
+	        @RequestParam("email") String email,
+	        @RequestParam("password") String password
+	) {
+		VMSAdmin admin = vmsAdminService.findVmasAdminById(id);
+	    if (admin != null) {
+	        admin.setName(name);
+	        admin.setEmail(email);
+	        admin.setPassword(passwordEncoder.encode(password));
+	        
+	        if (!photoFile.isEmpty()) {
+	            admin.setProfile(photoFile.getOriginalFilename());
+	            try {
+	                File savedFile = new ClassPathResource("static/images").getFile();
+	                Path path = Paths.get(savedFile.getAbsolutePath() + File.separator + photoFile.getOriginalFilename());
+	                Files.copy(photoFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        vmsAdminService.updateVmsAdmin(email, admin);
+	    }
+	    return "redirect:/admin-profile";
+	}
+	
 }
