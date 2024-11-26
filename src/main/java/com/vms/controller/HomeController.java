@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.vms.service.StaffService;
+import com.vms.service.VMSAdminService;
 
 @Controller
 public class HomeController {
@@ -13,11 +14,18 @@ public class HomeController {
 	@Autowired
 	StaffService staffService;
 	
+	@Autowired
+	VMSAdminService vmsAdminService;
+	
 	@GetMapping("/")
 	public String home(Model model) {
 		model.addAttribute("staffList", staffService.getAllStaff());
-//		List<Staff> list = 
-//		model.addAttribute("departments", staffService.searchStaffByDepartment())
+		
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username = authentication.getName();
+//        VMSAdmin admin = vmsAdminService.findVmasAdminByEmail(username);
+//        model.addAttribute("admin", admin);
+		
 		return "index";
 	}
 	

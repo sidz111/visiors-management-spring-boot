@@ -8,19 +8,29 @@
         rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossorigin="anonymous">
-        <link rel="icon" href="images/logo.png">
+    <link rel="icon" href="images/logo.png">
     <title>Home Page</title>
     <style>
         body {
-            background-color: black;
-            color: white;
-            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            font-family: 'Arial', sans-serif;
+            color: white;
+        }
+
+        /* Styling for the video background */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
         }
 
         .header-title {
-            background-color: #343a40;
+            background-color: rgba(52, 58, 64, 0.8);
             color: #fff;
             padding: 1rem 0;
             text-align: center;
@@ -30,7 +40,7 @@
         }
 
         .content-wrapper {
-            background-color: transferent;
+            background-color: rgba(0, 0, 0, 0.7);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 2rem;
             border-radius: 8px;
@@ -47,6 +57,12 @@
     </style>
 </head>
 <body>
+    <!-- Background Video -->
+    <video class="video-bg" autoplay muted loop>
+        <source src="video/bg.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
     <!-- Header -->
     <div th:replace="~{base :: header}"></div>
 
@@ -65,13 +81,11 @@
         </div>
     </div>
     
-    
-    
-
-    <!-- Total Staff Section -->
-    <h2 class="text-center">Total Staffs</h2>
+ <!-- Total Staff Section -->
+   <!--  <h2 class="text-center text-dark bg-warning">Total Staffs</h2>
+   
     <div class="container">
-        <div class="row">
+        <div class="row-2">
             <div class="col-md-3 mb-4" th:each="im : ${staffList}">
                 <div class="card bg-dark text-white">
                     <img th:src="@{'images/' + ${im.img}}" class="card-img-top" alt="Staff Image" height="200">
@@ -84,7 +98,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- Bootstrap Script -->
     <script

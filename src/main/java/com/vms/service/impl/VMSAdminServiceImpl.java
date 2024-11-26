@@ -1,6 +1,7 @@
 package com.vms.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,17 @@ public class VMSAdminServiceImpl implements VMSAdminService{
 	public VMSAdmin findVmasAdminByEmail(String email) {
 		VMSAdmin vmsAdmin = vmsAdminRepository.findByEmail(email);
 		return vmsAdmin;
+	}
+	
+	@Override
+	public VMSAdmin findVmasAdminById(Integer id) {
+		Optional<VMSAdmin> vmsAdmin = vmsAdminRepository.findById(id);
+		if(vmsAdmin.isEmpty()) {
+			return null;
+		}
+		else {
+			return vmsAdmin.get();
+		}
 	}
 
 	@Override

@@ -17,6 +17,10 @@ public class VMSAdmin {
 	private String password;
 	
 	private String role;
+	
+	private String profile;
+	
+	private String name;
 
 	public Integer getId() {
 		return id;
@@ -48,6 +52,22 @@ public class VMSAdmin {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

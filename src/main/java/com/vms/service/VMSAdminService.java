@@ -10,6 +10,7 @@ public interface VMSAdminService {
 	VMSAdmin updateVmsAdmin(String email, VMSAdmin vmsAdmin);	//update
 	String deleteVMSAdString(String email);				//delete
 	VMSAdmin findVmasAdminByEmail(String email);        //find by email
+	VMSAdmin findVmasAdminById(Integer id);        //find by id
 	List<VMSAdmin> findAllVMSAdmins();					//find all admins
 	
 	
