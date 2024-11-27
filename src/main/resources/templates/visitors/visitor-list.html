@@ -12,8 +12,8 @@
 <link rel="icon" href="images/logo.png">
 <style>
 body {
-	background-color: #212529;
-	color: #fff;
+	background-color: white;
+	color: black;
 	font-family: 'Arial', sans-serif;
 }
 
@@ -79,15 +79,15 @@ h2 {
 			</form>
 		</div>
 
-		<h2 class="text-center text-uppercase text-warning mb-4">Visitor
+		<h2 class="text-center text-uppercase text-dark fw-bold mb-4">Visitor
 			List</h2>
 
 		<div th:if="${visitorList.size() < 1 }"
 			class="alert alert-warning text-center">No visitors here.</div>
 
 		<div class="table-responsive">
-			<table class="table table-dark text-white">
-				<thead class="table-dark">
+			<table class="table">
+				<thead>
 					<tr>
 						<th scope="col">Id</th>
 						<th scope="col">Profile</th>
@@ -105,8 +105,7 @@ h2 {
 						<td th:text="${v.visitorId}"></td>
 						<td><img th:src="@{'/images/visitors/' + ${v.img}}"
 							style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;" /></td>
-						<!-- <td th:text="${v.name}"></td> -->
-						<td><a class="text-decoration-none text-warning"
+						<td><a class="text-decoration-none text-primary"
 							th:href="@{'/visitor-search-id?visitorId=' + ${v.visitorId}}"><strong
 								th:text="${v.name}"></strong> </a></td>
 						<td th:text="${v.contactNumber}"></td>
@@ -129,8 +128,8 @@ h2 {
 			</table>
 		</div>
 		<div class="text-center mt-4">
-		<a href="/addvisitor" class="btn btn-primary">Add New Visitor</a>
-		<a href="/" class="btn btn-link text-warning text-decoration-none">Back
+		<a href="/addvisitor" class="btn btn-success">Add New Visitor</a>
+		<a href="/" class="btn btn-link text-primary text-decoration-none">Back
 			to Home</a>
 			</div>
 	</div>

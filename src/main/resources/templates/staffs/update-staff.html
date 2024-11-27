@@ -7,69 +7,72 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
-
 </head>
-<body style="background-color: black;">
+<body>
 
 	<div th:replace="~{base :: header}"></div>
 
-	<div class="container text-white mt-5">
+	<div class="container text-white mt-2">
 		<div class="row justify-content-center">
-
-			<div class="col-md-6">
-				<div style="display: flex; justify-content: center;">
+			<div class="col-md-8 d-flex align-items-center">
+				<!-- Left Column for Image -->
+				<div class="text-center mt-5 me-4"> <!-- Added "me-4" for spacing -->
 					<img th:src="@{'/images/' + ${staff.img}}"
-						style="width: 35%; height: 200px; border-radius: 50%; object-fit: cover;" />
+						style="width: 330px; height: 350px; border-radius: 10%; object-fit: cover;" />
+					<h3 class="mt-3" th:text="${staff.name}"></h3>
 				</div>
-				<h2 class="text-center mb-4">Update</h2>
-				<h2 class="text-center mb-4" th:text="${staff.name}"></h2>
-				<form th:action="@{'/updatestaff/' + ${staff.staffId}}"
-					method="post" enctype="multipart/form-data"
-					class="p-4 border rounded shadow">
-					<div class="form-group mb-3">
-						<input type="text" name="name" id="name" class="form-control"
-							placeholder="Enter name of Staff" th:value="${staff.name}"
-							required />
-					</div>
-					<div class="form-group mb-3">
-						<select name="department" id="department" class="form-control"
-							th:value="${staff.department}" required>
-							<option value="" disabled selected>Select Department</option>
-							<option value="Guide"
-								th:selected="${'Guide' == staff.department}">Guide</option>
-							<option value="Management"
-								th:selected="${'Management' == staff.department}">Management</option>
-							<option value="Main Body"
-								th:selected="${'Main Body' == staff.department}">Main
-								Body</option>
-							<option value="Reception"
-								th:selected="${'Reception' == staff.department}">Reception</option>
-							<option value="Security"
-								th:selected="${'Security' == staff.department}">Security</option>
-						</select>
-					</div>
 
-					<div class="form-group mb-3">
-						<input type="email" name="email" id="email" class="form-control"
-							placeholder="Enter Email" th:value="${staff.email}" required />
-					</div>
-					<div class="form-group mb-3">
-						<input type="text" name="phoneNumber" id="phoneNumber"
-							class="form-control" placeholder="Enter Phone Number"
-							th:value="${staff.phoneNumber}" required />
-					</div>
+				<!-- Right Column for Form -->
+				<div class="flex-grow-1">
+					<h2 class="text-center mb-4">Update Staff</h2>
+					<form th:action="@{'/updatestaff/' + ${staff.staffId}}"
+						method="post" enctype="multipart/form-data"
+						class="p-5 border rounded shadow">
+						<div class="form-group mb-3">
+							<input type="text" name="name" id="name" class="form-control"
+								placeholder="Enter name of Staff" th:value="${staff.name}"
+								required />
+						</div>
+						<div class="form-group mb-3">
+							<select name="department" id="department" class="form-control"
+								th:value="${staff.department}" required>
+								<option value="" disabled selected>Select Department</option>
+								<option value="Guide"
+									th:selected="${'Guide' == staff.department}">Guide</option>
+								<option value="Management"
+									th:selected="${'Management' == staff.department}">Management</option>
+								<option value="Main Body"
+									th:selected="${'Main Body' == staff.department}">Main
+									Body</option>
+								<option value="Reception"
+									th:selected="${'Reception' == staff.department}">Reception</option>
+								<option value="Security"
+									th:selected="${'Security' == staff.department}">Security</option>
+							</select>
+						</div>
 
-					<div class="form-group mb-3">
-						<input type="file" class="form-control" name="img" id="img"
-							accept="image/*" />
-					</div>
+						<div class="form-group mb-3">
+							<input type="email" name="email" id="email" class="form-control"
+								placeholder="Enter Email" th:value="${staff.email}" required />
+						</div>
+						<div class="form-group mb-3">
+							<input type="text" name="phoneNumber" id="phoneNumber"
+								class="form-control" placeholder="Enter Phone Number"
+								th:value="${staff.phoneNumber}" required />
+						</div>
 
-					<button type="submit" class="btn btn-primary w-100">Update</button>
-				</form>
-				<div class="text-center mt-3">
-					<a href="/stafflist"
-						class="btn btn-link text-warning text-decoration-none">Back to
-						Staff List</a>
+						<div class="form-group mb-3">
+							<input type="file" class="form-control" name="img" id="img"
+								accept="image/*" />
+						</div>
+
+						<button type="submit" class="btn btn-primary w-100">Update</button>
+					</form>
+					<div class="text-center mt-3">
+						<a href="/stafflist"
+							class="btn btn-link text-primary text-decoration-none">Back to
+							Staff List</a>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -12,9 +12,11 @@
 <link rel="icon" href="images/logo.png">
 <style>
 body {
-	background-color: black;
+	background-color: #ffffff;
 	color: #212529;
 	font-family: 'Arial', sans-serif;
+	margin: 0;
+	padding: 0;
 }
 
 h2 {
@@ -22,25 +24,18 @@ h2 {
 	font-weight: bold;
 }
 
-.table {
-	color: #495057;
-}
-
 .table th, .table td {
 	vertical-align: middle;
+	color: #212529;
 }
 
-.btn {
-	border-radius: 25px;
-}
-
-.back-btn {
-	margin-top: 20px;
+.card {
+	border: none;
 }
 
 .card-header {
-	background-color: #007bff;
-	color: white;
+	font-weight: bold;
+	text-transform: uppercase;
 }
 
 .card-body {
@@ -50,6 +45,23 @@ h2 {
 .alert {
 	font-size: 1.1rem;
 	padding: 15px;
+	margin-bottom: 20px;
+}
+
+.img-container img {
+	width: 100%;
+	height: auto;
+	border-radius: 10%;
+	object-fit: cover;
+}
+
+.text-highlight {
+	font-weight: bold;
+	color: #6c757d;
+}
+
+.back-btn {
+	margin-top: 20px;
 }
 </style>
 </head>
@@ -64,54 +76,51 @@ h2 {
 		</div>
 
 		<!-- Display the visitor details if visitor is not null -->
-		<div th:if="${visitor != null}">
-			<div class="card shadow-lg bg-dark border-0 rounded">
-				<div class="card-header bg-warning text-dark text-center">
-					<h4 class="card-title text-uppercase font-weight-bold"
-						th:text="${visitor.name}"></h4>
+		<div th:if="${visitor != null}" class="card shadow-lg">
+			<div class="card-header bg-primary text-center">
+				<h4 class="card-title" th:text="${visitor.name}"></h4>
+			</div>
+
+			<div class="card-body">
+				<div class="row">
+					<!-- Image Section -->
+					<div class="col-md-4 text-center">
+						<img th:src="@{'images/visitors/' + ${visitor.img}}" style="width: 330px; height: 350px; border-radius: 10%;" class="img-fluid img-container" alt="Visitor Image">
+					</div>
+					<!-- Table Section -->
+					<div class="col-md-8">
+						<table class="table table-bordered">
+							<tr>
+								<th scope="row" class="text-highlight">Visitor ID</th>
+								<td th:text="${visitor.visitorId}"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="text-highlight">Contact Number</th>
+								<td th:text="${visitor.contactNumber}"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="text-highlight">Email</th>
+								<td th:text="${visitor.email}"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="text-highlight">Visit Date</th>
+								<td th:text="${visitor.visitDate}"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="text-highlight">In Time</th>
+								<td th:text="${visitor.inTime}"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="text-highlight">Out Time</th>
+								<td th:text="${visitor.outTime}"></td>
+							</tr>
+						</table>
+					</div>
 				</div>
-				<br/>
-				
-				<div class="card-header bg-dark text-dark fw-bold text-center">
-					 <img th:src="@{'images/visitors/' +${visitor.img}}" style="width: 20%; height: 200px; border-radius: 50%; object-fit: cover;"/>
-				</div>
-				<div class="card-body bg-dark">
-					<table class="table table-bordered table-striped">
-						<tr>
-							<th scope="row" class="font-weight-bold bg-dark text-white">Visitor
-								ID</th>
-							<td class="bg-dark text-white" th:text="${visitor.visitorId}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="font-weight-bold bg-dark text-white">Contact
-								Number</th>
-							<td class="bg-dark text-white" th:text="${visitor.contactNumber}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="font-weight-bold bg-dark text-white">Email</th>
-							<td class="bg-dark text-white" th:text="${visitor.email}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="font-weight-bold bg-dark text-white">Visit
-								Date</th>
-							<td class="bg-dark text-white" th:text="${visitor.visitDate}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="font-weight-bold bg-dark text-white">In
-								Time</th>
-							<td class="bg-dark text-white" th:text="${visitor.inTime}"></td>
-						</tr>
-						<tr>
-							<th scope="row" class="font-weight-bold bg-dark text-white">Out
-								Time</th>
-							<td class="bg-dark text-white" th:text="${visitor.outTime}"></td>
-						</tr>
-					</table>
-				</div>
-				<div class="card-footer text-center">
-					<a href="#" th:href="@{/visitorlist}"
-						class="btn btn-warning btn-lg back-btn">Back to Visitor List</a>
-				</div>
+			</div>
+
+			<div class="card-footer text-center">
+				<a href="#" th:href="@{/visitorlist}" class="btn btn-warning btn-lg bg-primary back-btn">Back to Visitor List</a>
 			</div>
 		</div>
 	</div>
