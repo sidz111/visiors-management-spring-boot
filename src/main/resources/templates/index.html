@@ -1,87 +1,94 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-        crossorigin="anonymous">
-    <link rel="icon" href="images/logo.png">
-    <title>Home Page</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            color: white;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<link rel="icon" href="images/logo.png">
+<title>Home Page</title>
+<style>
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Arial', sans-serif;
+	color: white;
+	background-image: url("bg.jpg");
+	background-size: cover; /* Ensures the image covers the entire background */
+	background-repeat: no-repeat; /* Prevents the image from repeating */
+	background-position: center center; /* Centers the image */
+	height: 100vh; /* Makes the body take the full viewport height */
+}
 
-        /* Styling for the video background */
-        .video-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-        }
+/* Styling for the video background */
+.video-bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	z-index: -1;
+}
 
-        .header-title {
-            background-color: rgba(52, 58, 64, 0.8);
-            color: #fff;
-            padding: 1rem 0;
-            text-align: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
+.header-title {
+	background-color: rgba(52, 58, 64, 0.8);
+	color: #fff;
+	padding: 1rem 0;
+	text-align: center;
+	font-size: 1.8rem;
+	font-weight: bold;
+	text-transform: uppercase;
+}
 
-        .content-wrapper {
-            background-color: rgba(0, 0, 0, 0.7);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            border-radius: 8px;
-            margin: 2rem auto;
-            max-width: 800px;
-        }
+.content-wrapper {
+	background-color: rgba(0, 0, 0, 0.7);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 2rem;
+	border-radius: 8px;
+	margin: 2rem auto;
+	max-width: 800px;
+}
 
-        .btn {
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 8px;
-        }
-    </style>
+.btn {
+	padding: 0.75rem 1.5rem;
+	font-size: 1rem;
+	font-weight: 600;
+	border-radius: 8px;
+}
+</style>
 </head>
 <body>
-    <!-- Background Video -->
-    <video class="video-bg" autoplay muted loop>
+	<!-- Background Video -->
+	<!--  <video class="video-bg" autoplay muted loop>
         <source src="video/bg.mp4" type="video/mp4">
-    </video>
+    </video> -->
 
-    <!-- Header -->
-    <div th:replace="~{base :: header}"></div>
+	<!-- Header -->
+	<div th:replace="~{base :: header}"></div>
 
-    <!-- Welcome Section -->
-    <div class="container">
-        <div class="content-wrapper text-center">
-            <h1>Welcome to the Home Page</h1>
-            <div class="row mt-4">
-                <div class="col-md-6 mb-3">
-                    <a class="btn btn-primary w-100" th:href="addstaff">Register New Staff</a>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <a class="btn btn-warning w-100" th:href="addvisitor">Add Visitors</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
- <!-- Total Staff Section -->
-   <!--  <h2 class="text-center text-dark bg-warning">Total Staffs</h2>
+	<!-- Welcome Section -->
+	<div class="container">
+		<div class="content-wrapper text-center">
+			<h1>Welcome to the Home Page</h1>
+			<div class="row mt-4">
+				<div class="col-md-6 mb-3">
+					<a class="btn btn-primary w-100" th:href="addstaff">Register
+						New Staff</a>
+				</div>
+				<div class="col-md-6 mb-3">
+					<a class="btn btn-warning w-100" th:href="addvisitor">Add
+						Visitors</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Total Staff Section -->
+	<!--  <h2 class="text-center text-dark bg-warning">Total Staffs</h2>
    
     <div class="container">
         <div class="row-2">
@@ -99,10 +106,10 @@
         </div>
     </div> -->
 
-    <!-- Bootstrap Script -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-z8gtzrZ6Z7Z10hoHQogSTW96c0z4kO8lIcmUwZjHFEkrM28nTlhn3tVVvCGfrl3K"
-        crossorigin="anonymous"></script>
+	<!-- Bootstrap Script -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-z8gtzrZ6Z7Z10hoHQogSTW96c0z4kO8lIcmUwZjHFEkrM28nTlhn3tVVvCGfrl3K"
+		crossorigin="anonymous"></script>
 </body>
 </html>
