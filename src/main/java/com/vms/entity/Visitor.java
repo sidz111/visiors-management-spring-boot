@@ -14,13 +14,36 @@ public class Visitor {
     private String name;
     private String contactNumber;
     private String email;
-    private String visitDate;
-    private String inTime;
-    private String outTime;
+    private String checkIn;
+    private String checkOut;
+    private Boolean isCheckOut;
     private String img;
+    
+	public String getCheckIn() {
+		return checkIn;
+	}
 
+	public void setCheckIn(String checkIn) {
+		this.checkIn = checkIn;
+	}
 
-    public Long getVisitorId() {
+	public String getCheckOut() {
+		return checkOut;
+	}
+
+	public void setCheckOut(String checkOut) {
+		this.checkOut = checkOut;
+	}
+
+	public Boolean getIsCheckOut() {
+		return isCheckOut;
+	}
+
+	public void setIsCheckOut(Boolean isCheckOut) {
+		this.isCheckOut = isCheckOut;
+	}
+
+	public Long getVisitorId() {
         return visitorId;
     }
 
@@ -52,54 +75,12 @@ public class Visitor {
         this.email = email;
     }
 
-    public String getVisitDate() {
-        return visitDate;
-    }
-
-    public void setVisitDate(String visitDate) {
-        this.visitDate = visitDate;
-    }
-
-
-	public String getInTime() {
-		return inTime;
-	}
-
-	public void setInTime(String inTime) {
-		this.inTime = inTime;
-	}
-
-	public String getOutTime() {
-		return outTime;
-	}
-
-	public void setOutTime(String outTime) {
-		this.outTime = outTime;
-	}
-
 	public String getImg() {
 		return img;
 	}
 
 	public void setImg(String img) {
 		this.img = img;
-	}
-
-	public Visitor(String name, String contactNumber, String email, String visitDate, String inTime, String outTime,
-			String img) {
-		super();
-		this.name = name;
-		this.contactNumber = contactNumber;
-		this.email = email;
-		this.visitDate = visitDate;
-		this.inTime = inTime;
-		this.outTime = outTime;
-		this.img = img;
-	}
-
-	public Visitor() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 }

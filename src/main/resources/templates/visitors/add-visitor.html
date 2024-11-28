@@ -35,27 +35,13 @@
         </div>
 
         <div class="mb-3">
-            <input type="date" name="visitDate" id="visitDate" class="form-control" placeholder="Enter Visit Date" required />
-        </div>
-
-        <div class="mb-3">
-            <label for="intime" class="form-label">In Time</label>
-            <input type="time" name="inTime" id="inTime" class="form-control" required />
-        </div>
-
-        <div class="mb-3">
-            <label for="outtime" class="form-label">Out Time</label>
-            <input type="time" name="outTime" id="outTime" class="form-control" required />
-        </div>
-
-        <div class="mb-3">
             <label for="webcam" class="form-label">Capture Photo</label>
             <video id="webcam" width="100%" height="auto" autoplay></video>
             <br>
             <button type="button" id="capture" class="btn btn-secondary mt-2">Capture</button>
             <br>
             <canvas id="canvas" style="display:none;"></canvas>
-            <input type="hidden" name="imgBase64" id="imgBase64" />
+            <input type="hidden" name="imgBase64" id="imgBase64" required/>
         </div>
 
         <div class="d-grid">

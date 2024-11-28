@@ -12,7 +12,7 @@
 <link rel="icon" href="images/logo.png">
 <style>
 body {
-	background-color: white;
+	background: white;
 	color: black;
 	font-family: 'Arial', sans-serif;
 }
@@ -42,13 +42,13 @@ h2 {
 	margin-top: 20px;
 }
 
-.table thead {
-	background-color: #28a745;
-	color: #fff;
+.table {
+	background-color: transparent !important;
+	border-collapse: collapse;
 }
 
 .table tbody tr:hover {
-	background-color: #343a40;
+	background-color: rgba(52, 58, 64, 0.8);
 }
 
 .table th, .table td {
@@ -92,11 +92,10 @@ h2 {
 						<th scope="col">Id</th>
 						<th scope="col">Profile</th>
 						<th scope="col">Name</th>
-						<th scope="col">Contact Number</th>
 						<th scope="col">Email</th>
-						<th scope="col">Visit Date</th>
-						<th scope="col">In Time</th>
-						<th scope="col">Out Time</th>
+						<th scope="col">Check In</th>
+						<th scope="col">Check Out</th>
+						<!-- <th scope="col">Is Check Out</th> -->
 						<th scope="col">Actions</th>
 					</tr>
 				</thead>
@@ -108,19 +107,34 @@ h2 {
 						<td><a class="text-decoration-none text-primary"
 							th:href="@{'/visitor-search-id?visitorId=' + ${v.visitorId}}"><strong
 								th:text="${v.name}"></strong> </a></td>
-						<td th:text="${v.contactNumber}"></td>
 						<td th:text="${v.email}"></td>
-						<td th:text="${v.visitDate}"></td>
-						<td th:text="${v.inTime}"></td>
-						<td th:text="${v.outTime}"></td>
+						<td th:text="${v.checkIn}"></td>
+						<td class="text-success" th:text="${v.checkOut}"></td>
+						
+						<!-- <td th:if="${v.isCheckOut==true}">
+							<div class="text-success" th:text="${v.isCheckOut}"></div>
+						</td>
+						
+						<td th:if="${v.isCheckOut==false}">
+							<div class="text-warning" th:text="${v.isCheckOut}"></div>
+						</td> -->
+						
+						<!-- Add Check Out button in Actions column -->
 						<td>
-							<!-- Update and Delete buttons --> <a
-							th:href="@{'/updatevisitor/' + ${v.visitorId}}"
+							<!-- Update and Delete buttons --> 
+							<a th:href="@{'/updatevisitor/' + ${v.visitorId}}"
 							class="btn btn-warning btn-sm">Update</a>
 							<form th:action="@{/removevisitor}" method="post"
 								style="display: inline;">
 								<input type="hidden" name="visitorId" th:value="${v.visitorId}" />
 								<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+							</form> 
+							<!-- Check Out button -->
+							<form th:action="@{/checkoutvisitor}" method="post"
+								style="display: inline;">
+								<input type="hidden" name="visitorId" th:value="${v.visitorId}" />
+								<button type="submit" class="btn btn-info btn-sm">Check
+									Out</button>
 							</form>
 						</td>
 					</tr>
@@ -128,10 +142,10 @@ h2 {
 			</table>
 		</div>
 		<div class="text-center mt-4">
-		<a href="/addvisitor" class="btn btn-success">Add New Visitor</a>
-		<a href="/" class="btn btn-link text-primary text-decoration-none">Back
-			to Home</a>
-			</div>
+			<a href="/addvisitor" class="btn btn-success">Add New Visitor</a> <a
+				href="/" class="btn btn-link text-primary text-decoration-none">Back
+				to Home</a>
+		</div>
 	</div>
 
 	<script

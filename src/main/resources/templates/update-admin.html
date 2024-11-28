@@ -9,7 +9,7 @@
 	rel="stylesheet">
 
 </head>
-<body style="background-color: black;">
+<body style="background: linear-gradient(to right, #2b5876, #4e4376);">
 
 	<div th:replace="~{base :: header}"></div>
 
@@ -19,7 +19,7 @@
 			<div class="col-md-6">
 				<div style="display: flex; justify-content: center;">
 					<img th:src="@{'/images/' + ${admin.profile}}"
-						style="width: 35%; height: 200px; border-radius: 50%; object-fit: cover;" />
+						style="width: 35%; height: 200px; border-radius: 10%; object-fit: cover;" />
 				</div>
 				<h2 class="text-center mb-4">Update</h2>
 				<h2 class="text-center mb-4" th:text="${admin.name}"></h2>

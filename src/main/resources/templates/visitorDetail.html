@@ -10,6 +10,7 @@
 	crossorigin="anonymous">
 <title>Visitor Details</title>
 <link rel="icon" href="images/logo.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 body {
 	background-color: #ffffff;
@@ -77,7 +78,7 @@ h2 {
 
 		<!-- Display the visitor details if visitor is not null -->
 		<div th:if="${visitor != null}" class="card shadow-lg">
-			<div class="card-header bg-primary text-center">
+			<div class="card-header text-white bg-primary text-center">
 				<h4 class="card-title" th:text="${visitor.name}"></h4>
 			</div>
 
@@ -85,7 +86,9 @@ h2 {
 				<div class="row">
 					<!-- Image Section -->
 					<div class="col-md-4 text-center">
-						<img th:src="@{'images/visitors/' + ${visitor.img}}" style="width: 330px; height: 350px; border-radius: 10%;" class="img-fluid img-container" alt="Visitor Image">
+						<img th:src="@{'images/visitors/' + ${visitor.img}}"
+							style="width: 330px; height: 350px; border-radius: 10%;"
+							class="img-fluid img-container" alt="Visitor Image">
 					</div>
 					<!-- Table Section -->
 					<div class="col-md-8">
@@ -103,16 +106,25 @@ h2 {
 								<td th:text="${visitor.email}"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="text-highlight">Visit Date</th>
-								<td th:text="${visitor.visitDate}"></td>
+								<th scope="row" class="text-highlight">Check In</th>
+								<td th:text="${visitor.checkIn}"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="text-highlight">In Time</th>
-								<td th:text="${visitor.inTime}"></td>
+								<th scope="row" class="text-highlight">Check Out</th>
+								<td class="text-success fw-bold" th:text="${visitor.checkOut}"></td>
 							</tr>
+
 							<tr>
-								<th scope="row" class="text-highlight">Out Time</th>
-								<td th:text="${visitor.outTime}"></td>
+								<th scope="row" class="text-highlight">Action</th>
+								<td>
+									<form th:action="@{/checkoutvisitor}" method="post"
+										style="display: inline;">
+										<input type="hidden" name="visitorId"
+											th:value="${visitor.visitorId}" />
+										<button type="submit" class="btn btn-warning btn-sm">Check
+											Out</button>
+									</form>
+								</td>
 							</tr>
 						</table>
 					</div>
@@ -120,7 +132,11 @@ h2 {
 			</div>
 
 			<div class="card-footer text-center">
-				<a href="#" th:href="@{/visitorlist}" class="btn btn-warning btn-lg bg-primary back-btn">Back to Visitor List</a>
+				<a href="#" th:href="@{/visitorlist}"
+					class="btn btn-warning btn-lg bg-primary back-btn">Back to
+					Visitor List</a>
+				<button class="btn btn-success" onclick="window.print()">Print</button>
+				<!-- <button class="btn btn-danger" onclick="generatePDF()">Download PDF</button> -->
 			</div>
 		</div>
 	</div>
@@ -130,5 +146,30 @@ h2 {
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-7S7BFkeu1kBVC+qExoGn90vM2yVdOg5w8Sc7FP4RAcK5M1G9+y8NUpz+YaeR9/U1"
 		crossorigin="anonymous"></script>
+
+	<script>
+		function generatePDF() {
+			const { jsPDF } = window.jspdf;
+			const doc = new jsPDF();
+
+			const visitorName = document.querySelector('.card-title').textContent;
+			const visitorId = document.querySelector('td:nth-child(2)').textContent;
+			const contactNumber = document.querySelector('td:nth-child(4)').textContent;
+			const email = document.querySelector('td:nth-child(6)').textContent;
+			const checkIn = document.querySelector('td:nth-child(8)').textContent;
+			const checkOut = document.querySelector('td:nth-child(10)').textContent;
+
+			doc.setFontSize(18);
+			doc.text(`Visitor Details: ${visitorName}`, 10, 10);
+			doc.setFontSize(12);
+			doc.text(`Visitor ID: ${visitorId}`, 10, 20);
+			doc.text(`Contact Number: ${contactNumber}`, 10, 30);
+			doc.text(`Email: ${email}`, 10, 40);
+			doc.text(`Check In: ${checkIn}`, 10, 50);
+			doc.text(`Check Out: ${checkOut}`, 10, 60);
+
+			doc.save('visitor_details.pdf');
+		}
+	</script>
 </body>
 </html>

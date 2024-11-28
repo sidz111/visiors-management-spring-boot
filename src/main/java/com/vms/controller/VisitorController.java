@@ -5,11 +5,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +31,9 @@ public class VisitorController {
 
 	@Autowired
 	VisitorService visitorService;
+	
+	@Autowired
+	JavaMailSender javaMailSender;
 
 	@GetMapping("/addvisitor")
 	public String showAddVisitorForm(Model model) {
@@ -39,9 +46,6 @@ public class VisitorController {
 	        @RequestParam("name") String name,
 	        @RequestParam("contactNumber") String contactNumber,
 	        @RequestParam("email") String email,
-	        @RequestParam("visitDate") String visitDate,
-	        @RequestParam("inTime") String inTime,
-	        @RequestParam("outTime") String outTime,
 	        @RequestParam("imgBase64") String imgBase64,
 	        RedirectAttributes redirectAttributes) {
 
@@ -60,18 +64,28 @@ public class VisitorController {
 	        visitor.setName(name);
 	        visitor.setContactNumber(contactNumber);
 	        visitor.setEmail(email);
-	        visitor.setVisitDate(visitDate);
-	        visitor.setInTime(inTime);
-	        visitor.setOutTime(outTime);
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	        LocalDateTime now = LocalDateTime.now();
+	        visitor.setCheckIn(now.format(formatter));
+	        visitor.setCheckOut(null);
+	        visitor.setIsCheckOut(false);
 	        visitor.setImg(fileName);
 	        visitorService.addVisitor(visitor);
+	        
+	        SimpleMailMessage mailMessage = new SimpleMailMessage();
+		    mailMessage.setFrom("sssurwade2212@gmail.com");
+		    mailMessage.setTo(email);
+		    mailMessage.setSubject("Checked in into Visitor Management System");
+		    mailMessage.setText("Welcome "+visitor.getName()+" to Visitor Management System\n You are Checked In At: "+ now.format(formatter));
+		    javaMailSender.send(mailMessage);
+
 
 	        redirectAttributes.addFlashAttribute("message", "Visitor added successfully!");
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        redirectAttributes.addFlashAttribute("message", "Error saving visitor data!");
 	    }
-
+	    
 	    return "redirect:/visitorlist";
 	}
 
@@ -135,19 +149,13 @@ public class VisitorController {
 	@PostMapping("/updatevisitor/{visitorId}")
 	public String updateVisitor(@PathVariable Long visitorId, @RequestParam("img") MultipartFile photoFile,
 			@RequestParam("name") String name, @RequestParam("contactNumber") String contactNumber,
-			@RequestParam("email") String email, @RequestParam("visitDate") String visitDate,
-			@RequestParam("inTime") String inTime,
-			@RequestParam("outTime") String outTime 
-	) {
+			@RequestParam("email") String email) {
 		Visitor visitor = visitorService.getVisitorById(visitorId);
 
 		if (visitor != null) {
 			visitor.setName(name);
 			visitor.setContactNumber(contactNumber);
 			visitor.setEmail(email);
-			visitor.setVisitDate(visitDate);
-			visitor.setInTime(inTime);
-			visitor.setOutTime(outTime);
 			if (!photoFile.isEmpty()) {
 				visitor.setImg(photoFile.getOriginalFilename());
 				try {
@@ -163,5 +171,41 @@ public class VisitorController {
 		}
 		return "redirect:/visitorlist";
 	}
+	
+	
+	@PostMapping("/checkoutvisitor")
+	public String checkOutVisitor(@RequestParam("visitorId") Long visitorId, RedirectAttributes redirectAttributes) {
+	    try {
+	        Visitor visitor = visitorService.getVisitorById(visitorId);
+	        if (visitor != null && visitor.getCheckOut() == null) {
+	            // Set the check-out time
+	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	            LocalDateTime now = LocalDateTime.now();
+	            visitor.setCheckOut(now.format(formatter));
+	            visitor.setIsCheckOut(true);  // Assuming 'isCheckOut' is a boolean field in the entity
+
+	            // Update the visitor's data
+	            visitorService.updateVisitor(visitorId, visitor);
+	            
+	            SimpleMailMessage mailMessage = new SimpleMailMessage();
+			    mailMessage.setFrom("sssurwade2212@gmail.com");
+			    mailMessage.setTo(visitor.getEmail());
+			    mailMessage.setSubject("Checked OUT into Visitor Management System");
+			    mailMessage.setText("THANK YOU "+visitor.getName()+" for visiting to Visitor Management System\n You are Checked OUT At: "+ now.format(formatter));
+			    javaMailSender.send(mailMessage);
+
+	            redirectAttributes.addFlashAttribute("message", "Visitor checked out successfully!");
+	        } else {
+	            redirectAttributes.addFlashAttribute("message", "Visitor has already checked out or not found!");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        redirectAttributes.addFlashAttribute("message", "Error during check out!");
+	    }
+	    return "redirect:/visitorlist";
+	}
+	
+
+
 
 }
