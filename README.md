@@ -2,6 +2,13 @@
 
 The **Visitors Management System** is a robust application designed to streamline the management of visitor information within a secure and organized environment. Built using **Spring Boot**, this system leverages **Spring Data JPA** for database interaction, **Thymeleaf** for dynamic HTML rendering, and **Hibernate ORM** for object-relational mapping. This project enables organizations to monitor visitor activities, log security actions, and keep a record of all visitor-related activities in a centralized and efficient manner.
 
+## Check In Mail to Visitor
+![image](https://github.com/user-attachments/assets/93a335fe-b37d-42cc-83a9-af485d0dfb5f)
+
+## Check Out Mail to Visitor after checking out
+![image](https://github.com/user-attachments/assets/df658fae-f3e2-438c-a6c3-325ec722a936)
+
+
 ## Login page
 ![Screenshot (285)](https://github.com/user-attachments/assets/13ab7f2b-6487-4246-8766-b65f56243ec6)
 
