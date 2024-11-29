@@ -12,8 +12,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +25,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.vms.entity.Staff;
 import com.vms.service.StaffService;
+
+import jakarta.mail.internet.MimeMessage;
 
 @Controller
 public class StaffController {
@@ -74,12 +76,33 @@ public class StaffController {
 	        staffService.addStaff(staff);
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	        LocalDateTime now = LocalDateTime.now();
-	        SimpleMailMessage mailMessage = new SimpleMailMessage();
-		    mailMessage.setFrom("sssurwade2212@gmail.com");
-		    mailMessage.setTo(email);
-		    mailMessage.setSubject("Congratulations mail");
-		    mailMessage.setText("Welcome "+staff.getName()+" to Visitor Management Trust\n You are Member as "+staff.getDepartment()+" in our system from: "+ now.format(formatter));
-		    javaMailSender.send(mailMessage);
+	        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+	        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+	        helper.setFrom("sssurwade2212@gmail.com");
+	        helper.setTo(email);
+	        helper.setSubject("🎉 Congratulations on Joining Us!");
+
+	        helper.setText(
+	            "<html>" +
+	            "<body style='font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; color: #333;'>" +
+	            "<div style='background: linear-gradient(90deg, #FFC107, #FF5722); padding: 20px; text-align: center; color: white;'>" +
+	            "   <h1 style='margin: 0; font-size: 28px;'>🎉 Congratulations, " + staff.getName() + "!</h1>" +
+	            "</div>" +
+	            "<div style='padding: 20px; background-color: #ffffff; margin: 20px auto; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 600px;'>" +
+	            "   <p style='font-size: 18px;'>We are thrilled to welcome you to the <strong>Visitor Management Trust</strong>!</p>" +
+	            "   <p style='font-size: 16px; margin-top: 20px;'>You are now a valued <strong style='color: #4CAF50;'>" + staff.getDepartment() + "</strong> member in our system.</p>" +
+	            "   <p style='font-size: 16px; margin-top: 20px;'><strong>Joined On:</strong> <span style='color: #2196F3;'>" + now.format(formatter) + "</span></p>" +
+	            "   <p style='margin-top: 20px;'>We are excited to work together and achieve great things!</p>" +
+	            "</div>" +
+	            "<footer style='text-align: center; padding: 10px; background-color: #FF5722; color: white; font-size: 14px; margin-top: 20px;'>" +
+	            "   Best regards,<br><strong>Visitor Management Team</strong>" +
+	            "</footer>" +
+	            "</body>" +
+	            "</html>", 
+	            true // Indicates HTML content
+	        );
+
+		    javaMailSender.send(mimeMessage);
 
 	        redirectAttributes.addFlashAttribute("message", "Staff added successfully!");
 	    } catch (Exception e) {
