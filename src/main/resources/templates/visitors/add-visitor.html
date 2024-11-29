@@ -5,84 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+          integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMtwHmyekH7mD1sQFL8KqRvL4JJl8UORyQycTA5" crossorigin="anonymous">
     <title>Visitor Registration</title>
-    <link rel="icon" href="images/logo.png">
     <style>
         body {
-            background-color: black;
+            background-color: #f4f7fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            background: #ffffff;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+        label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #555;
+        }
+        .form-control {
+            border-radius: 8px;
+            height: 45px;
+        }
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        video {
+            border-radius: 8px;
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+        }
+        .capture-btn {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .capture-btn:hover {
+            background-color: #218838;
         }
         canvas {
-            border: 1px solid white;
+            display: none;
+        }
+        footer {
+            text-align: center;
+            color: #777;
+            margin-top: 3rem;
+        }
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-<div th:replace="~{base :: header}"></div>
 
-<div class="container text-white mt-5">
-    <h2 class="text-center mb-4">Visitor Registration</h2>
-    <form action="/addvisitor" method="post" enctype="multipart/form-data" class="mx-auto" style="max-width: 600px;">
+<div class="container">
+    <h2>Visitor Registration</h2>
+    <form action="/addvisitor" method="post" enctype="multipart/form-data">
         <div class="mb-3">
-            <input type="text" name="name" id="name" class="form-control" placeholder="Enter name of Visitor" required />
-        </div>
-
-        <div class="mb-3">
-            <input type="text" name="contactNumber" id="contactNumber" class="form-control" placeholder="Enter Contact Number" required />
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" name="name" id="name" class="form-control" placeholder="Enter Full Name" required />
         </div>
 
         <div class="mb-3">
-            <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" required />
+            <label for="contactNumber" class="form-label">Contact Number</label>
+            <input type="text" name="contactNumber" id="contactNumber" class="form-control"
+                   placeholder="Enter Contact Number" required />
         </div>
 
         <div class="mb-3">
-            <label for="webcam" class="form-label">Capture Photo</label>
-            <video id="webcam" width="100%" height="auto" autoplay></video>
-            <br>
-            <button type="button" id="capture" class="btn btn-secondary mt-2">Capture</button>
-            <br>
-            <canvas id="canvas" style="display:none;"></canvas>
-            <input type="hidden" name="imgBase64" id="imgBase64" required/>
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email Address" required />
         </div>
 
-        <div class="d-grid">
-            <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="mb-4">
+            <label>Visitor Photo</label>
+            <div class="video-container">
+                <video id="webcam" autoplay></video>
+            </div>
+            <button type="button" id="captureVisitor" class="capture-btn mb-2">Capture Photo</button>
+            <canvas id="visitorCanvas"></canvas>
+            <input type="hidden" name="imgBase64" id="imgBase64" />
         </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-
-    <div class="text-center mt-3">
-        <a href="/" class="btn btn-link text-warning fw-bold text-decoration-none">Back</a>
-    </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-7S7BFkeu1kBVC+qExoGn90vM2yVdOg5w8Sc7FP4RAcK5M1G9+y8NUpz+YaeR9/U1" crossorigin="anonymous"></script>
+<footer>
+    <p>&copy; 2024 Visitor Management System. Designed by <a href="https://github.com/sidz111" target="_blank">Shuddhodhan Surwade</a>.</p>
+</footer>
 
 <script>
-    // Access the webcam
     const webcam = document.getElementById('webcam');
-    const captureButton = document.getElementById('capture');
-    const canvas = document.getElementById('canvas');
-    const imgBase64Input = document.getElementById('imgBase64');
+    const visitorCanvas = document.getElementById('visitorCanvas');
+    const imgBase64 = document.getElementById('imgBase64');
 
-    async function startWebcam() {
+    async function startWebcam(videoElement) {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        webcam.srcObject = stream;
+        videoElement.srcObject = stream;
     }
 
-    // Capture image from webcam and convert to base64
-    captureButton.addEventListener('click', () => {
-        const context = canvas.getContext('2d');
-        context.drawImage(webcam, 0, 0, canvas.width, canvas.height);
-        const dataUrl = canvas.toDataURL('image/png');
-        imgBase64Input.value = dataUrl; // Set the base64 string to hidden input
+    window.onload = () => {
+        startWebcam(webcam);
+    };
 
-        // Change button background to warning color after capturing the image
-        captureButton.classList.remove('btn-secondary'); // Remove the default class
-        captureButton.classList.add('bg-warning', 'text-dark'); // Add new background and text color
-        captureButton.textContent = 'Image Captured'; // Optional: Update button text
+    document.getElementById('captureVisitor').addEventListener('click', () => {
+        const context = visitorCanvas.getContext('2d');
+        visitorCanvas.width = webcam.videoWidth;
+        visitorCanvas.height = webcam.videoHeight;
+        context.drawImage(webcam, 0, 0, visitorCanvas.width, visitorCanvas.height);
+        imgBase64.value = visitorCanvas.toDataURL('image/png');
+        updateSubmitButton();
     });
 
-    // Start webcam when page loads
-    window.onload = startWebcam;
+    
+
+    function updateSubmitButton() {
+        const submitButton = document.querySelector('.btn-primary');
+        if (imgBase64.value) {
+            submitButton.style.backgroundColor = '#28a745'; // Green
+        } else {
+            submitButton.style.backgroundColor = '#007bff'; // Blue
+        }
+    }
 </script>
+
 </body>
 </html>

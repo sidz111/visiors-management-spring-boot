@@ -6,6 +6,7 @@ import com.vms.service.VisitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +47,12 @@ public class VisitorServiceImpl implements VisitorService {
 
     @Override
     public List<Visitor> getAllVisitors() {
-        return visitorRepository.findAll();
+        List<Visitor> list = visitorRepository.findAll();
+        Collections.sort(list);   //comparable implements in entity class compulsory
+        Collections.reverse(list);
+        return list;
     }
+
 
     @Override
     public List<Visitor> searchVisitorsByName(String name) {

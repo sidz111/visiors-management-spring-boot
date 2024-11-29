@@ -5,11 +5,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +31,9 @@ public class StaffController {
 
 	@Autowired
 	StaffService staffService;
+	
+	@Autowired
+	JavaMailSender javaMailSender;
 
 	@GetMapping("/addstaff")
 	public String showAddStaffForm(Model model) {
@@ -65,6 +72,14 @@ public class StaffController {
 	        staff.setPhoneNumber(phoneNumber);
 	        staff.setImg(fileName);
 	        staffService.addStaff(staff);
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	        LocalDateTime now = LocalDateTime.now();
+	        SimpleMailMessage mailMessage = new SimpleMailMessage();
+		    mailMessage.setFrom("sssurwade2212@gmail.com");
+		    mailMessage.setTo(email);
+		    mailMessage.setSubject("Congratulations mail");
+		    mailMessage.setText("Welcome "+staff.getName()+" to Visitor Management Trust\n You are Member as "+staff.getDepartment()+" in our system from: "+ now.format(formatter));
+		    javaMailSender.send(mailMessage);
 
 	        redirectAttributes.addFlashAttribute("message", "Staff added successfully!");
 	    } catch (Exception e) {

@@ -12,8 +12,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +25,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.vms.entity.Visitor;
 import com.vms.service.VisitorService;
+
+import jakarta.mail.internet.MimeMessage;
 
 @Controller
 public class VisitorController {
@@ -67,17 +69,38 @@ public class VisitorController {
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	        LocalDateTime now = LocalDateTime.now();
 	        visitor.setCheckIn(now.format(formatter));
-	        visitor.setCheckOut(null);
+	        visitor.setCheckOut("pending");
 	        visitor.setIsCheckOut(false);
 	        visitor.setImg(fileName);
 	        visitorService.addVisitor(visitor);
 	        
-	        SimpleMailMessage mailMessage = new SimpleMailMessage();
-		    mailMessage.setFrom("sssurwade2212@gmail.com");
-		    mailMessage.setTo(email);
-		    mailMessage.setSubject("Checked in into Visitor Management System");
-		    mailMessage.setText("Welcome "+visitor.getName()+" to Visitor Management System\n You are Checked In At: "+ now.format(formatter));
-		    javaMailSender.send(mailMessage);
+	        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+	        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+	        helper.setFrom("sssurwade2212@gmail.com");
+	        helper.setTo(email);
+	        helper.setSubject("Checked in into Visitor Management System");
+	        helper.setText(
+	        	    "<html>" +
+	        	    "<body style='font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; color: #333;'>" +
+	        	    "<div style='background: linear-gradient(90deg, #4CAF50, #2196F3); padding: 20px; text-align: center; color: white;'>" +
+	        	    "   <h1 style='margin: 0; font-size: 28px;'>Welcome, " + visitor.getName() + "!</h1>" +
+	        	    "</div>" +
+	        	    "<div style='padding: 20px; background-color: #ffffff; margin: 20px auto; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 600px;'>" +
+	        	    "   <p style='font-size: 18px;'>We are delighted to have you with us at the <strong>Visitor Management System</strong>.</p>" +
+	        	    "   <p style='font-size: 16px; margin-top: 20px;'>Your <strong style='color: #2196F3;'>Check-In</strong> has been successfully registered.</p>" +
+	        	    "   <p style='font-size: 16px; margin-top: 20px;'><strong>Checked-In At:</strong> <span style='color: #2196F3;'>" + now.format(formatter) + "</span></p>" +
+	        	    "   <p style='margin-top: 20px;'>Thank you for visiting us. We hope you have a great experience!</p>" +
+	        	    "</div>" +
+	        	    "<footer style='text-align: center; padding: 10px; background-color: #2196F3; color: white; font-size: 14px; margin-top: 20px;'>" +
+	        	    "   Best regards,<br><strong>Visitor Management Team</strong>" +
+	        	    "</footer>" +
+	        	    "</body>" +
+	        	    "</html>", 
+	        	    true // Indicates HTML content
+	        	);
+
+
+	        javaMailSender.send(mimeMessage);
 
 
 	        redirectAttributes.addFlashAttribute("message", "Visitor added successfully!");
@@ -177,7 +200,7 @@ public class VisitorController {
 	public String checkOutVisitor(@RequestParam("visitorId") Long visitorId, RedirectAttributes redirectAttributes) {
 	    try {
 	        Visitor visitor = visitorService.getVisitorById(visitorId);
-	        if (visitor != null && visitor.getCheckOut() == null) {
+	        if (visitor != null && visitor.getCheckOut().equals("pending")) {
 	            // Set the check-out time
 	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	            LocalDateTime now = LocalDateTime.now();
@@ -187,12 +210,30 @@ public class VisitorController {
 	            // Update the visitor's data
 	            visitorService.updateVisitor(visitorId, visitor);
 	            
-	            SimpleMailMessage mailMessage = new SimpleMailMessage();
-			    mailMessage.setFrom("sssurwade2212@gmail.com");
-			    mailMessage.setTo(visitor.getEmail());
-			    mailMessage.setSubject("Checked OUT into Visitor Management System");
-			    mailMessage.setText("THANK YOU "+visitor.getName()+" for visiting to Visitor Management System\n You are Checked OUT At: "+ now.format(formatter));
-			    javaMailSender.send(mailMessage);
+	            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+		        helper.setFrom("sssurwade2212@gmail.com");
+		        helper.setTo(visitor.getEmail());
+		        helper.setSubject("Checked OUT into Visitor Management System");
+		        helper.setText(
+		        	    "<html>" +
+		        	    "<body style='font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; color: #333;'>" +
+		        	    "<div style='background: linear-gradient(90deg, #FF9800, #FF5722); padding: 20px; text-align: center; color: white;'>" +
+		        	    "   <h1 style='margin: 0; font-size: 28px;'>Thank You, " + visitor.getName() + "!</h1>" +
+		        	    "</div>" +
+		        	    "<div style='padding: 20px; background-color: #ffffff; margin: 20px auto; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 600px;'>" +
+		        	    "   <p style='font-size: 18px;'>We appreciate your visit to the <strong>Visitor Management System</strong>.</p>" +
+		        	    "   <p style='font-size: 16px; margin-top: 20px;'><strong>Checked-Out At:</strong> <span style='color: #2196F3;'>" + now.format(formatter) + "</span></p>" +
+		        	    "   <p style='font-size: 16px; margin-top: 20px;'>We hope to see you again soon. Your presence means a lot to us!</p>" +
+		        	    "</div>" +
+		        	    "<footer style='text-align: center; padding: 10px; background-color: #FF5722; color: white; font-size: 14px; margin-top: 20px;'>" +
+		        	    "   Best regards,<br><strong>Visitor Management Team</strong>" +
+		        	    "</footer>" +
+		        	    "</body>" +
+		        	    "</html>",
+		        	    true // Indicates HTML content
+		        	);
+			    javaMailSender.send(mimeMessage);
 
 	            redirectAttributes.addFlashAttribute("message", "Visitor checked out successfully!");
 	        } else {

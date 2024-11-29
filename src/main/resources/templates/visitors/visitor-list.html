@@ -89,14 +89,14 @@ h2 {
 			<table class="table">
 				<thead>
 					<tr>
-						<th scope="col">Id</th>
-						<th scope="col">Profile</th>
-						<th scope="col">Name</th>
-						<th scope="col">Email</th>
-						<th scope="col">Check In</th>
-						<th scope="col">Check Out</th>
+						<th class="text-center" scope="col">Id</th>
+						<th class="text-center" scope="col">Profile</th>
+						<th class="text-center" scope="col">Name</th>
+						<th class="text-center" scope="col">Email</th>
+						<th class="text-center" scope="col">Check In</th>
+						<th class="text-center" scope="col">Check Out</th>
 						<!-- <th scope="col">Is Check Out</th> -->
-						<th scope="col">Actions</th>
+						<th class="text-center" scope="col">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -109,7 +109,14 @@ h2 {
 								th:text="${v.name}"></strong> </a></td>
 						<td th:text="${v.email}"></td>
 						<td th:text="${v.checkIn}"></td>
-						<td class="text-success" th:text="${v.checkOut}"></td>
+						
+						<td th:if="${v.checkOut=='pending'}">
+						<div class="text-danger text-center fw-bold" th:text="${v.checkOut}"></div>
+						</td>
+						
+						<td th:if="${v.checkOut!='pending'}">
+						<div class="text-success" th:text="${v.checkOut}"></div>
+						</td>
 						
 						<!-- <td th:if="${v.isCheckOut==true}">
 							<div class="text-success" th:text="${v.isCheckOut}"></div>

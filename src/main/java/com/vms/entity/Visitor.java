@@ -5,7 +5,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Visitor {
+public class Visitor  implements Comparable<Visitor> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,16 @@ public class Visitor {
     private String checkOut;
     private Boolean isCheckOut;
     private String img;
+    private String govId;
     
+	public String getGovId() {
+		return govId;
+	}
+
+	public void setGovId(String govId) {
+		this.govId = govId;
+	}
+
 	public String getCheckIn() {
 		return checkIn;
 	}
@@ -81,6 +90,11 @@ public class Visitor {
 
 	public void setImg(String img) {
 		this.img = img;
+	}
+
+	@Override
+	public int compareTo(Visitor o) {
+		return this.checkOut.compareTo(o.checkOut);
 	}
 
 }
