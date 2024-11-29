@@ -5,6 +5,8 @@ The **Visitors Management System** is a robust application designed to streamlin
 ## Check In Mail to Visitor
 ![image](https://github.com/user-attachments/assets/93a335fe-b37d-42cc-83a9-af485d0dfb5f)
 
+## Check Out Mail to Visitor after checking out
+![image](https://github.com/user-attachments/assets/df658fae-f3e2-438c-a6c3-325ec722a936)
 
 
 ## Login page
