@@ -74,9 +74,10 @@ public class StaffController {
 	        staff.setEmail(email);
 	        staff.setPhoneNumber(phoneNumber);
 	        staff.setImg(fileName);
-	        staffService.addStaff(staff);
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	        LocalDateTime now = LocalDateTime.now();
+	        staff.setJoiningDate(now.format(formatter));
+	        staffService.addStaff(staff);
 	        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 	        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 	        helper.setFrom("sssurwade2212@gmail.com");

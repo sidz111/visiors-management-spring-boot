@@ -18,9 +18,17 @@ public class Staff {
     private String email;
     private String phoneNumber;
     private String img;
+    private String joiningDate;
 
+    public String getJoiningDate() {
+		return joiningDate;
+	}
 
-    public Long getStaffId() {
+	public void setJoiningDate(String joiningDate) {
+		this.joiningDate = joiningDate;
+	}
+
+	public Long getStaffId() {
         return staffId;
     }
 

@@ -80,6 +80,7 @@ img {
 					<th>Email</th>
 					<th>Phone Number</th>
 					<th>Actions</th>
+					<th>Joining</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -98,7 +99,10 @@ img {
 						class="btn btn-warning btn-sm">Update</a> <a
 						th:href="@{'/removestaff/' + ${staff.staffId}}"
 						class="btn btn-danger btn-sm">Delete</a></td>
+						
+					<td th:text="${staff.joiningDate}"></td>
 				</tr>
+				
 			</tbody>
 		</table>
 		<div class="text-center mt-4">
