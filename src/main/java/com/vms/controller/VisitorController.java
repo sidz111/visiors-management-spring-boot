@@ -1,6 +1,7 @@
 package com.vms.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,19 +49,34 @@ public class VisitorController {
 	        @RequestParam("name") String name,
 	        @RequestParam("contactNumber") String contactNumber,
 	        @RequestParam("email") String email,
-	        @RequestParam("imgBase64") String imgBase64,
+	        @RequestParam("imgBase64First") String imgBase64First,
+	        @RequestParam("imgBase64Second") String imgBase64Second,
 	        RedirectAttributes redirectAttributes) {
 
 	    try {
 	       
-	        String base64Image = imgBase64.split(",")[1];
+	        String base64Image = imgBase64First.split(",")[1];
 	        byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-
 	        String fileName = "visitor_" + System.currentTimeMillis() + ".png";
+	        
+	        
+	        
+	        String base64Image1 = imgBase64Second.split(",")[1];
+	        byte[] imageBytes1 = Base64.getDecoder().decode(base64Image1);
+	        String fileName1 = "visitor_gov_id" + System.currentTimeMillis() + ".png";
+	        
+	        
 	        Path uploadDir = Paths.get("static/images/visitors"); 
+	        Path uploadDirGov = Paths.get("static/images/gov-ids"); 
+	        
 	        Files.createDirectories(uploadDir);
 	        Path filePath = uploadDir.resolve(fileName);
 	        Files.write(filePath, imageBytes);
+	        
+	        
+	        Files.createDirectories(uploadDirGov);
+	        Path filePathGov = uploadDirGov.resolve(fileName1);
+	        Files.write(filePathGov, imageBytes1);
 
 	        Visitor visitor = new Visitor();
 	        visitor.setName(name);
@@ -72,6 +88,7 @@ public class VisitorController {
 	        visitor.setCheckOut("pending");
 	        visitor.setIsCheckOut(false);
 	        visitor.setImg(fileName);
+	        visitor.setGovId(fileName1);
 	        visitorService.addVisitor(visitor);
 	        
 	        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -89,15 +106,17 @@ public class VisitorController {
 	        	    "   <p style='font-size: 18px;'>We are delighted to have you with us at the <strong>Visitor Management System</strong>.</p>" +
 	        	    "   <p style='font-size: 16px; margin-top: 20px;'>Your <strong style='color: #2196F3;'>Check-In</strong> has been successfully registered.</p>" +
 	        	    "   <p style='font-size: 16px; margin-top: 20px;'><strong>Checked-In At:</strong> <span style='color: #2196F3;'>" + now.format(formatter) + "</span></p>" +
+	        	    "   <p style='font-size: 16px; margin-top: 20px;'><strong>Your ID:</strong> <span style='color: #4CAF50;'>" + visitor.getVisitorId() + "</span></p>" +
 	        	    "   <p style='margin-top: 20px;'>Thank you for visiting us. We hope you have a great experience!</p>" +
 	        	    "</div>" +
 	        	    "<footer style='text-align: center; padding: 10px; background-color: #2196F3; color: white; font-size: 14px; margin-top: 20px;'>" +
 	        	    "   Best regards,<br><strong>Visitor Management Team</strong>" +
 	        	    "</footer>" +
 	        	    "</body>" +
-	        	    "</html>", 
+	        	    "</html>",
 	        	    true // Indicates HTML content
 	        	);
+
 
 
 	        javaMailSender.send(mimeMessage);
@@ -112,19 +131,54 @@ public class VisitorController {
 	    return "redirect:/visitorlist";
 	}
 
-
-//	@PostMapping("/addvisitor")
-//	public String addVisitor(Visitor visitor) {
-//		visitorService.addVisitor(visitor);
+//	@PostMapping("/removevisitor")
+//	public String removeVisitor(@RequestParam("visitorId") Long visitorId) {
+//		visitorService.deleteVisitorById(visitorId);
 //		return "redirect:/visitorlist";
 //	}
 
+	
 	@PostMapping("/removevisitor")
-	public String removeVisitor(@RequestParam("visitorId") Long visitorId) {
-		visitorService.deleteVisitorById(visitorId);
-		return "redirect:/visitorlist";
+	public String removeVisitor(@RequestParam("visitorId") Long visitorId, RedirectAttributes redirectAttributes) {
+	    try {
+	        // Retrieve the visitor details from the database
+	        Visitor visitor = visitorService.getVisitorById(visitorId);
+	        
+	        if (visitor != null) {
+	            // Paths for profile and government ID images
+	            Path profileImagePath = Paths.get("static/images/visitors/" + visitor.getImg());
+	            Path govIdImagePath = Paths.get("static/images/gov-ids/" + visitor.getGovId());
+
+	            // Delete profile image if it exists
+	            if (Files.exists(profileImagePath)) {
+	                Files.delete(profileImagePath);
+	            }
+
+	            // Delete government ID image if it exists
+	            if (Files.exists(govIdImagePath)) {
+	                Files.delete(govIdImagePath);
+	            }
+
+	            // Delete the visitor from the database
+	            visitorService.deleteVisitorById(visitorId);
+
+	            redirectAttributes.addFlashAttribute("message", "Visitor removed successfully!");
+	        } else {
+	            redirectAttributes.addFlashAttribute("message", "Visitor not found!");
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        redirectAttributes.addFlashAttribute("message", "Error deleting visitor files!");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        redirectAttributes.addFlashAttribute("message", "Error removing visitor!");
+	    }
+
+	    return "redirect:/visitorlist";
 	}
 
+	
+	
 	@GetMapping("/visitor-search-id")
 	public String searchByVisitorId(@RequestParam("visitorId") Long visitorId, Model model) {
 		Visitor visitor = visitorService.getVisitorById(visitorId);

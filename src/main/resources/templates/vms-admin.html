@@ -10,7 +10,15 @@
 <link rel="icon" href="images/logo.png">
 <style>
 body {
-	background-color: black;
+	margin: 0;
+	padding: 0;
+	font-family: 'Arial', sans-serif;
+	color: white;
+	background-image: url("bg1.jpg");
+	background-size: cover; /* Ensures the image covers the entire background */
+	/*background-repeat: no-repeat; /* Prevents the image from repeating */
+	background-position: center center; /* Centers the image */
+	height: 100vh; /* Makes the body take the full viewport height */
 }
 
 #video, #canvas {
@@ -27,39 +35,39 @@ body {
 <body>
 
 	<div th:replace="~{base :: header}"></div>
-	<div class="container text-white mt-5">
+	<div class="container text-white mt-2">
 		<div class="row justify-content-center">
 			<div class="col-md-6">
-				<h2 class="text-center mb-4">Add New Admin</h2>
+				<h2 class="text-center text-dark mb-2">Add New Admin</h2>
 				<form th:action="@{/add-admin}" method="post" enctype="multipart/form-data"
 					class="p-4 border rounded shadow">
 					
 					<!-- Name -->
-					<div class="form-group mb-3">
+					<div class="form-group mb-2">
 						<input type="text" name="name" id="name" class="form-control"
 							placeholder="Enter Name" required>
 					</div>
 					
 					<!-- Email -->
-					<div class="form-group mb-3">
+					<div class="form-group mb-2">
 						<input type="email" name="email" id="email" class="form-control"
 							placeholder="Enter Email" required>
 					</div>
 					
 					<!-- Password -->
-					<div class="form-group mb-3">
+					<div class="form-group mb-2">
 						<input type="text" name="password" id="password" class="form-control"
 							placeholder="Enter password" required>
 					</div>
 
 					<!-- Capture Image -->
-					 <div class="form-group mb-3 text-center">
-						<video id="video" width="420" height="340" autoplay></video>
-						<canvas id="canvas" width="420" height="340"></canvas>
+					 <div class="form-group mb-1 text-center">
+						<video id="video" width="320" height="240" autoplay></video>
+						<canvas id="canvas" width="320" height="240"></canvas>
 						<br>
-						<button type="button" id="capture" class="btn btn-primary mt-3">Capture
+						<button type="button" id="capture" class="btn btn-primary mt--1">Capture
 							Image</button>
-						<button type="button" id="retake" class="btn btn-warning mt-3"
+						<button type="button" id="retake" class="btn btn-warning mt-1"
 							style="display: none;">Retake Image</button>
 					</div>
 
@@ -71,7 +79,7 @@ body {
 				</form>
 
 				<div class="text-center mt-3">
-					<a href="/" class="btn btn-link text-warning text-decoration-none">Back
+					<a href="/" class="btn btn-link text-dark bg-warning text-decoration-none">Back
 						to Home</a>
 				</div>
 			</div>

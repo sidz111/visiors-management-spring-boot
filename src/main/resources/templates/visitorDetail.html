@@ -89,6 +89,7 @@ h2 {
 						<img th:src="@{'images/visitors/' + ${visitor.img}}"
 							style="width: 330px; height: 350px; border-radius: 10%;"
 							class="img-fluid img-container" alt="Visitor Image">
+		
 					</div>
 					<!-- Table Section -->
 					<div class="col-md-8">
@@ -127,6 +128,18 @@ h2 {
 								</td>
 							</tr>
 						</table>
+						<div>
+						<div th:if="${visitor.govId!=null}">
+						<h3 th:text="'Vog id of ' + ${visitor.name}"></h3>
+						<img th:src="@{'images/gov-ids/' + ${visitor.govId}}"
+							style="width: 80%; border-radius: 0%;"
+							class="img-fluid img-container" alt="Visitor Gov Id">
+						</div>
+							
+						<div th:if="${visitor.govId==null}">
+						<h5 class="text-warning" th:text="${visitor.name + ' doesnt submit gov id'}"></h5>
+						</div>
+						</div>
 					</div>
 				</div>
 			</div>

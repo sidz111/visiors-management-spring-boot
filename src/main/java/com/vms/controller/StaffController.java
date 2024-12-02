@@ -1,6 +1,7 @@
 package com.vms.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -59,7 +60,7 @@ public class StaffController {
 
 	        // Save the image to a file
 	        String fileName = "staff_" + System.currentTimeMillis() + ".png";
-	        Path uploadDir = Paths.get("static/images"); // Directory for saving images
+	        Path uploadDir = Paths.get("static/images/staffs"); // Directory for saving images
 	        System.out.println(uploadDir);
 	        Files.createDirectories(uploadDir); // Create directory if it doesn't exist
 	        Path filePath = uploadDir.resolve(fileName);
@@ -165,11 +166,45 @@ public class StaffController {
 		return "staffs/staff-list";
 	}
 
+//	@GetMapping("/removestaff/{staffId}")
+//	public String removeStaff(@PathVariable Long staffId) {
+//		staffService.deleteStaffById(staffId);
+//		return "redirect:/stafflist";
+//	}
+	
 	@GetMapping("/removestaff/{staffId}")
-	public String removeStaff(@PathVariable Long staffId) {
-		staffService.deleteStaffById(staffId);
-		return "redirect:/stafflist";
+	public String removeStaff(@PathVariable Long staffId, RedirectAttributes redirectAttributes) {
+	    try {
+	        // Retrieve the staff details from the database
+	        Staff staff = staffService.getStaffById(staffId);
+
+	        if (staff != null) {
+	            // Path for staff image
+	            Path staffImagePath = Paths.get("static/images/staffs" + staff.getImg());
+
+	            // Delete the staff image file if it exists
+	            if (Files.exists(staffImagePath)) {
+	                Files.delete(staffImagePath);
+	            }
+
+	            // Delete the staff record from the database
+	            staffService.deleteStaffById(staffId);
+
+	            redirectAttributes.addFlashAttribute("message", "Staff removed successfully!");
+	        } else {
+	            redirectAttributes.addFlashAttribute("message", "Staff not found!");
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        redirectAttributes.addFlashAttribute("message", "Error deleting staff image!");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        redirectAttributes.addFlashAttribute("message", "Error removing staff!");
+	    }
+
+	    return "redirect:/stafflist";
 	}
+
 
 	@GetMapping("/search-id")
 	public String searchByStaffId(@RequestParam("staffId") Long staffId, Model model) {
@@ -227,7 +262,7 @@ public class StaffController {
 	        if (!photoFile.isEmpty()) {
 	            staff.setImg(photoFile.getOriginalFilename());
 	            try {
-	                File savedFile = new ClassPathResource("static/images").getFile();
+	                File savedFile = new ClassPathResource("static/images/staffs").getFile();
 	                Path path = Paths.get(savedFile.getAbsolutePath() + File.separator + photoFile.getOriginalFilename());
 	                Files.copy(photoFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 	            } catch (Exception e) {
