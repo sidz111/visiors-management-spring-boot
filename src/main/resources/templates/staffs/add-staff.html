@@ -10,13 +10,21 @@
 <link rel="icon" href="images/logo.png">
 <style>
 body {
-	background-color: black;
+	background-color: white;
+	color: black;
+}
+.p-4 {
+    padding: 1.5rem !important;
 }
 
 #video, #canvas {
 	display: block;
 	margin: 10px auto;
-	border: 2px solid white;
+	border: 2px solid black;
+}
+#video {
+border-radius: 10px;
+width: 16rem;
 }
 
 #canvas {
@@ -27,10 +35,10 @@ body {
 <body>
 
 	<div th:replace="~{base :: header}"></div>
-	<div class="container text-white mt-5">
+	<div class="container text-dark">
 		<div class="row justify-content-center">
 			<div class="col-md-6">
-				<h2 class="text-center mb-4">Add New Staff</h2>
+				<h2 class="text-center mb-1">Add New Staff</h2>
 				<form action="/addstaff" method="post" enctype="multipart/form-data"
 					class="p-4 border rounded shadow">
 					<!-- Staff Name -->
@@ -72,12 +80,12 @@ body {
 
 					<!-- Capture Image -->
 					<div class="form-group mb-3 text-center">
-						<video id="video" width="420" height="340" autoplay></video>
-						<canvas id="canvas" width="420" height="340"></canvas>
+						<video id="video" autoplay></video>
+						<canvas id="canvas"></canvas>
 						<br>
-						<button type="button" id="capture" class="btn btn-primary mt-3">Capture
+						<button type="button" id="capture" class="btn btn-primary mt-1">Capture
 							Image</button>
-						<button type="button" id="retake" class="btn btn-warning mt-3"
+						<button type="button" id="retake" class="btn btn-warning mt-1"
 							style="display: none;">Retake Image</button>
 					</div>
 
@@ -89,7 +97,7 @@ body {
 				</form>
 
 				<div class="text-center mt-3">
-					<a href="/" class="btn btn-link text-warning text-decoration-none">Back
+					<a href="/" class="btn btn-link bg-warning text-dark text-decoration-none">Back
 						to Home</a>
 				</div>
 			</div>

@@ -1,92 +1,117 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Visitor Registration</title>
-    <style>
-        body {
-            background-color: #f4f7fa;
-            font-family: 'Arial', sans-serif;
-        }
-        .container {
-            max-width: 700px;
-            background: #ffffff;
-            padding: 3rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-top: 50px;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 2rem;
-        }
-        .video-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        video {
-            border-radius: 8px;
-            width: 100%;
-            max-width: 300px;
-            height: auto;
-        }
-        .btn {
-            display: block;
-            margin: 0.5rem auto;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<title>Visitor Registration</title>
+<style>
+body {
+	background-color: #f4f7fa;
+	font-family: 'Arial', sans-serif;
+}
+
+.forms {
+    max-width: 700px;
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-45%, -20%);
+    width: 40%;
+}
+
+.forms:hover {
+    width: 70%; /* Final width on hover */
+}
+
+
+h2 {
+	text-align: center;
+	color: #333;
+	margin-bottom: 2rem;
+}
+
+.video-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+video {
+	border-radius: 8px;
+	width: 100%;
+	max-width: 300px;
+	height: auto;
+}
+
+.btn {
+	display: block;
+	margin: 0.5rem auto;
+}
+</style>
 </head>
 <body>
-<div class="container">
-    <h2>Visitor Registration</h2>
-    <form action="/addvisitor" method="post" enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="name" class="form-label">Full Name</label>
-            <input type="text" name="name" id="name" class="form-control" placeholder="Enter Full Name" required>
-        </div>
-        <div class="mb-3">
-            <label for="contactNumber" class="form-label">Contact Number</label>
-            <input type="text" name="contactNumber" id="contactNumber" class="form-control"
-                   placeholder="Enter Contact Number" required>
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email Address</label>
-            <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email Address" required>
-        </div>
 
-        <!-- First Photo Capture -->
-        <div class="mb-3">
-            <label>First Visitor Photo</label>
-            <div class="video-container">
-                <video id="webcam1" autoplay></video>
-            </div>
-            <button type="button" id="capturePhoto1" class="btn btn-success">Capture First Photo</button>
-            <canvas id="canvas1" style="display:none;"></canvas>
-            <input type="hidden" name="imgBase64First" id="imgBase64First">
-        </div>
+	<div>
+		<div th:replace="~{base :: header}"></div>
+	</div>
 
-        <!-- Second Photo Capture -->
-        <div class="mb-3">
-            <label>Second Visitor Photo</label>
-            <div class="video-container">
-                <video id="webcam2" autoplay></video>
-            </div>
-            <button type="button" id="capturePhoto2" class="btn btn-warning">Capture Second Photo</button>
-            <canvas id="canvas2" style="display:none;"></canvas>
-            <input type="hidden" name="imgBase64Second" id="imgBase64Second">
-        </div>
+	<div class="forms">
+		<h2>Visitor Registration</h2>
+		<form action="/addvisitor" method="post" enctype="multipart/form-data">
+			<div class="mb-3">
+				<label for="name" class="form-label">Full Name</label> <input
+					type="text" name="name" id="name" class="form-control"
+					placeholder="Enter Full Name" required>
+			</div>
+			<div class="mb-3">
+				<label for="contactNumber" class="form-label">Contact Number</label>
+				<input type="text" name="contactNumber" id="contactNumber"
+					class="form-control" placeholder="Enter Contact Number" required>
+			</div>
+			<div class="mb-3">
+				<label for="email" class="form-label">Email Address</label> <input
+					type="email" name="email" id="email" class="form-control"
+					placeholder="Enter Email Address" required>
+			</div>
 
-        <button type="submit" class="btn btn-primary w-100">Submit</button>
-    </form>
-</div>
+			<!-- First Photo Capture -->
+			<div class="mb-3 text-center">
+				<label>First Visitor Photo</label>
+				<div class="video-container">
+					<video id="webcam1" autoplay></video>
+				</div>
+				<button type="button" id="capturePhoto1" class="btn btn-success">Capture
+					First Photo</button>
+				<canvas id="canvas1" style="display: none;"></canvas>
+				<input type="hidden" name="imgBase64First" id="imgBase64First">
+			</div>
 
-<script>
+			<!-- Second Photo Capture -->
+			<div class="mb-3 text-center">
+				<label>Second Visitor Photo</label>
+				<div class="video-container">
+					<video id="webcam2" autoplay></video>
+				</div>
+				<button type="button" id="capturePhoto2" class="btn btn-warning">Capture
+					Second Photo</button>
+				<canvas id="canvas2" style="display: none;"></canvas>
+				<input type="hidden" name="imgBase64Second" id="imgBase64Second">
+			</div>
+
+			<button type="submit" class="btn btn-primary w-100">Submit</button>
+		</form>
+	</div>
+
+	<script>
     const webcam1 = document.getElementById('webcam1');
     const webcam2 = document.getElementById('webcam2');
     const canvas1 = document.getElementById('canvas1');

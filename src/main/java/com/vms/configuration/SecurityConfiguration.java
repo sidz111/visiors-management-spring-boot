@@ -40,7 +40,9 @@ public class SecurityConfiguration {
         httpSecurity.csrf(csrf -> csrf.disable()).authorizeHttpRequests(requests -> requests
                 .requestMatchers("/")
                 .hasRole("ADMIN")
-                .requestMatchers("reset")
+                .requestMatchers("/loginPageImage/**")
+                .permitAll()
+                .requestMatchers("/reset")
                 .permitAll()
                 .anyRequest()
                 .authenticated())
