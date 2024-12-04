@@ -63,4 +63,20 @@ public class VisitorServiceImpl implements VisitorService {
     public void deleteVisitorById(Long visitorId) {
         visitorRepository.deleteById(visitorId);
     }
+
+	@Override
+	public Visitor findVisitorbyRandomId(Integer randomId) {
+		Optional<Visitor> visitor = Optional.ofNullable(visitorRepository.findByRandomId(randomId));
+		if(visitor.isEmpty()) {
+			return null;
+		}else {
+			return visitor.get();
+		}
+	}
+
+	@Override
+	public List<Visitor> particularDateDatas(String checkInTime, String checkOutTime) {
+	    return visitorRepository.findVisitorsByCheckInTimeRange(checkInTime, checkOutTime);
+	}
+
 }

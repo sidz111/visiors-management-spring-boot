@@ -17,4 +17,8 @@ public interface VisitorService {
 	List<Visitor> searchVisitorsByName(String name);  // find by name
 
 	void deleteVisitorById(Long visitorId);      // delete by id
+	
+	Visitor findVisitorbyRandomId(Integer randomId);  //find visitor by random id 
+	
+	List<Visitor> particularDateDatas(String checkInTime, String CheckOutTime);  // fetch data between dates
 }

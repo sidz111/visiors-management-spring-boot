@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -79,6 +80,8 @@ public class VisitorController {
 	        Files.write(filePathGov, imageBytes1);
 
 	        Visitor visitor = new Visitor();
+	        Random random = new Random();
+	        visitor.setRandomId(random.nextInt(100000));
 	        visitor.setName(name);
 	        visitor.setContactNumber(contactNumber);
 	        visitor.setEmail(email);
@@ -106,7 +109,7 @@ public class VisitorController {
 	        	    "   <p style='font-size: 18px;'>We are delighted to have you with us at the <strong>Visitor Management System</strong>.</p>" +
 	        	    "   <p style='font-size: 16px; margin-top: 20px;'>Your <strong style='color: #2196F3;'>Check-In</strong> has been successfully registered.</p>" +
 	        	    "   <p style='font-size: 16px; margin-top: 20px;'><strong>Checked-In At:</strong> <span style='color: #2196F3;'>" + now.format(formatter) + "</span></p>" +
-	        	    "   <p style='font-size: 16px; margin-top: 20px;'><strong>Your ID:</strong> <span style='color: #4CAF50;'>" + visitor.getVisitorId() + "</span></p>" +
+	        	    "   <p style='font-size: 16px; margin-top: 20px;'><strong>Your ID:</strong> <span style='color: #4CAF50;'>" + visitor.getRandomId() + "</span></p>" +
 	        	    "   <p style='margin-top: 20px;'>Thank you for visiting us. We hope you have a great experience!</p>" +
 	        	    "</div>" +
 	        	    "<footer style='text-align: center; padding: 10px; background-color: #2196F3; color: white; font-size: 14px; margin-top: 20px;'>" +
@@ -180,17 +183,41 @@ public class VisitorController {
 	
 	
 	@GetMapping("/visitor-search-id")
-	public String searchByVisitorId(@RequestParam("visitorId") Long visitorId, Model model) {
-		Visitor visitor = visitorService.getVisitorById(visitorId);
+	public String searchByVisitorId(@RequestParam("randomId") Integer randomId, Model model) {
+		Visitor visitor = visitorService.findVisitorbyRandomId(randomId);
 		if (visitor != null) {
 			model.addAttribute("visitor", visitor);
 			return "visitorDetail";
 		} else {
-			model.addAttribute("visitorerror", "Visitor not found with ID: " + visitorId);
+			model.addAttribute("visitorerror", "Visitor not found with ID: " + randomId);
 			model.addAttribute("visitorList", visitorService.getAllVisitors());
 			return "visitorDetail";
 		}
 	}
+	
+	@GetMapping("/visitor-check-time")
+	public String searchParticularList(@RequestParam("checkIn") String checkIn,
+	                                   @RequestParam("checkOut") String checkOut,
+	                                   Model model) {
+	    List<Visitor> visitorList = visitorService.particularDateDatas(checkIn.toString(), checkOut.toString());
+	    model.addAttribute("visitorList", visitorList);
+	    return "filter-list";
+	}
+	
+	@GetMapping("/filter-list")
+	public String getFilterListPage() {
+		return "filter-list";
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	@GetMapping("/visitor/{visitorId}")
 	public String viewVisitorDetails(@PathVariable("visitorId") Long visitorId, Model model) {

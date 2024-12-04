@@ -10,6 +10,8 @@ public class Visitor  implements Comparable<Visitor> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long visitorId;
+    
+    private Integer randomId;
 
     private String name;
     private String contactNumber;
@@ -20,6 +22,14 @@ public class Visitor  implements Comparable<Visitor> {
     private String img;
     private String govId;
     
+	public Integer getRandomId() {
+		return randomId;
+	}
+
+	public void setRandomId(Integer randomId) {
+		this.randomId = randomId;
+	}
+
 	public String getGovId() {
 		return govId;
 	}

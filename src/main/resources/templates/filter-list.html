@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous">
+    <title>Visitor Management</title>
+    <link rel="icon" href="images/logo.png">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #68a2f2;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .search-form {
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .search-form label {
+            font-weight: 500;
+        }
+
+        .search-form input,
+        .search-form button {
+            margin-top: 10px;
+        }
+
+        .table {
+            background-color: #ffffff !important;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .table thead {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .btn {
+            border-radius: 5px;
+        }
+
+        .btn-warning, .btn-danger, .btn-info {
+            margin-right: 5px;
+        }
+
+        .no-visitors-alert {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .add-visitor-container {
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            margin-right: 10px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{base :: header}"></div>
+
+    <!-- Search Form -->
+    <form class="search-form" th:action="@{/visitor-check-time}" method="get">
+        <h4 class="text-center mb-3">Search Visitors</h4>
+        <div class="mb-3">
+            <label for="checkIn">Select Check-In Date and Time:</label>
+            <input type="datetime-local" id="checkIn" name="checkIn" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="checkOut">Select Check-Out Date and Time:</label>
+            <input type="datetime-local" id="checkOut" name="checkOut" class="form-control" required>
+        </div>
+        <button class="btn btn-success w-100" type="submit">Search</button>
+    </form>
+
+    <!-- Visitor List -->
+    <div class="container">
+        <h2 class="text-center text-uppercase fw-bold mb-4">Visitor List</h2>
+        <div th:if="${visitorList.size() < 1}" class="alert alert-warning text-center no-visitors-alert">No visitors found.</div>
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Profile</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Check-In</th>
+                        <th class="text-center">Check-Out</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="v : ${visitorList}">
+                        <td th:text="${v.randomId}" class="text-center"></td>
+                        <td class="text-center">
+                            <img th:src="@{'/images/visitors/' + ${v.img}}"
+                                 style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                        </td>
+                        <td>
+                            <a class="text-decoration-none text-primary"
+                               th:href="@{'/visitor-search-id?visitorId=' + ${v.visitorId}}">
+                                <strong th:text="${v.name}"></strong>
+                            </a>
+                        </td>
+                        <td th:text="${v.email}"></td>
+                        <td th:text="${v.checkIn}"></td>
+                        <td>
+                            <span th:if="${v.checkOut=='pending'}" class="text-danger fw-bold" th:text="${v.checkOut}"></span>
+                            <span th:if="${v.checkOut!='pending'}" class="text-success" th:text="${v.checkOut}"></span>
+                        </td>
+                        <td class="text-center">
+                            <a th:href="@{'/updatevisitor/' + ${v.visitorId}}" class="btn btn-warning btn-sm">Update</a>
+                            <form th:action="@{/removevisitor}" method="post" style="display: inline;">
+                                <input type="hidden" name="visitorId" th:value="${v.visitorId}">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                            <form th:action="@{/checkoutvisitor}" method="post" style="display: inline;">
+                                <input type="hidden" name="visitorId" th:value="${v.visitorId}">
+                                <button type="submit" class="btn btn-info btn-sm">Check Out</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="add-visitor-container text-center">
+            <a href="/addvisitor" class="btn btn-success">Add New Visitor</a>
+            <a href="/" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-7S7BFkeu1kBVC+qExoGn90vM2yVdOg5w8Sc7FP4RAcK5M1G9+y8NUpz+YaeR9/U1"
+        crossorigin="anonymous"></script>
+</body>
+</html>
