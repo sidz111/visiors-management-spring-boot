@@ -64,4 +64,15 @@ public class StaffServiceImpl implements StaffService {
 	public List<Staff> getStaffByName(String name) {
 		return staffRepository.findByName(name);
 	}
+
+	@Override
+	public Staff getStaffByRandomId(Integer randomId) {
+		Optional<Staff> staff  = Optional.ofNullable(staffRepository.findByRandomId(randomId));
+		if(staff.isEmpty()) {
+			return  null;
+		}
+		else {
+			return staff.get();
+		}
+	}
 }

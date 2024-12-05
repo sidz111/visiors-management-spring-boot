@@ -189,7 +189,7 @@
             <td><img th:src="@{'/images/visitors/' + ${v.img}}"
               style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;" /></td>
             <td><a class="visitor-link"
-                th:href="@{'/visitor-search-id?visitorId=' + ${v.visitorId}}"><strong th:text="${v.name}"></strong></a></td>
+                th:href="@{'/visitor-search-id?randomId=' + ${v.randomId}}"><strong th:text="${v.name}"></strong></a></td>
             <td th:text="${v.email}"></td>
             <td th:text="${v.checkIn}"></td>
             <td th:if="${v.checkOut=='pending'}">

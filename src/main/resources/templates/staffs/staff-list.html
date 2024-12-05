@@ -18,24 +18,26 @@ body {
 	color: black;
 	background-color: #68a2f2;
 }
+
 .search-form {
-            margin-left: auto;
-            margin-right: 20px;
-            margin-top: 20px;
-            max-width: 300px;
-        }
-        .btn-danger, .btn-warning {
-            border-radius: 25px;
-        }
+	margin-left: auto;
+	margin-right: 20px;
+	margin-top: 20px;
+	max-width: 300px;
+}
 
-        .search-form input {
-            border-radius: 25px;
-            padding-left: 20px;
-        }
+.btn-danger, .btn-warning {
+	border-radius: 25px;
+}
 
-        .search-form button {
-            border-radius: 25px;
-        }
+.search-form input {
+	border-radius: 25px;
+	padding-left: 20px;
+}
+
+.search-form button {
+	border-radius: 25px;
+}
 
 table {
 	background-color: #333;
@@ -57,15 +59,14 @@ img {
 	<div class=" justify-content-end container mt-5">
 		<form class="search-form d-flex" th:action="@{/search-id}"
 			method="get">
-			<input class="form-control me-2" type="number" name="staffId"
+			<input class="form-control me-2" type="number" name="randomId"
 				placeholder="Search by staff ID" aria-label="Search">
 			<button class="btn btn-success" type="submit">Search</button>
 		</form>
 	</div>
 
 	<div class="container mt-5">
-		<h2 class="text-center text-uppercase text-dark mb-4">Staff
-			List</h2>
+		<h2 class="text-center text-uppercase text-dark mb-4">Staff List</h2>
 		<table class="table table-transferemt">
 			<thead>
 				<tr>
@@ -81,11 +82,11 @@ img {
 			</thead>
 			<tbody>
 				<tr th:each="staff : ${staffList}">
-					<td th:text="${staff.staffId}"></td>
+					<td th:text="${staff.randomId}"></td>
 					<td><img th:src="@{'/images/staffs/' + ${staff.img}}" /></td>
 					<!-- <td th:text="${staff.name}"></td> -->
 					<td><a class="text-decoration-none text-primary"
-						th:href="@{'/search-id?staffId=' + ${staff.staffId}}"><strong
+						th:href="@{'/search-id?randomId=' + ${staff.randomId}}"><strong
 							th:text="${staff.name}"></strong></a></td>
 					<td th:text="${staff.department}"></td>
 					<td th:text="${staff.email}"></td>
@@ -95,15 +96,16 @@ img {
 						class="btn btn-warning btn-sm">Update</a> <a
 						th:href="@{'/removestaff/' + ${staff.staffId}}"
 						class="btn btn-danger btn-sm">Delete</a></td>
-						
+
 					<td th:text="${staff.joiningDate}"></td>
 				</tr>
-				
+
 			</tbody>
 		</table>
 		<div class="text-center mt-4">
 			<a href="/addstaff" class="btn btn-success">Add New Staff</a> <a
-				href="/" class="btn btn-link text-black bg-warning text-decoration-none">Back
+				href="/"
+				class="btn btn-link text-black bg-warning text-decoration-none">Back
 				to Home</a>
 		</div>
 	</div>

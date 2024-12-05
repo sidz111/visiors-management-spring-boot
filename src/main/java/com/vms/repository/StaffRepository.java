@@ -12,4 +12,5 @@ public interface StaffRepository extends JpaRepository<Staff, Long> {
 
 	List<Staff> findByDepartment(String department);
 	List<Staff> findByName(String name);
+	Staff findByRandomId(Integer randomId);
 }

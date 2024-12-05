@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -69,6 +70,8 @@ public class StaffController {
 
 	        // Save staff details in the database
 	        Staff staff = new Staff();
+	        Random random = new Random();
+	        staff.setRandomId(random.nextInt(100000));
 	        staff.setName(name);
 	        staff.setDepartment(department);
 	        staff.setEmail(email);
@@ -208,13 +211,13 @@ public class StaffController {
 
 
 	@GetMapping("/search-id")
-	public String searchByStaffId(@RequestParam("staffId") Long staffId, Model model) {
-		Staff staff = staffService.getStaffById(staffId);
+	public String searchByStaffId(@RequestParam("randomId") Integer randomId, Model model) {
+		Staff staff = staffService.getStaffByRandomId(randomId);
 		if (staff != null) {
 			model.addAttribute("staff", staff);
 			return "staffDetail";
 		} else {
-			model.addAttribute("error", "Staff not found with ID: " + staffId);
+			model.addAttribute("error", "Staff not found with ID: " + randomId);
 			model.addAttribute("slist", staffService.getAllStaff());
 			return "staffDetail";
 		}
@@ -247,7 +250,6 @@ public class StaffController {
 	@PostMapping("/updatestaff/{staffId}")
 	public String updateStaff(
 	        @PathVariable Long staffId,
-	        @RequestParam("img") MultipartFile photoFile,
 	        @RequestParam("name") String name,
 	        @RequestParam("department") String department,
 	        @RequestParam("email") String email,
@@ -260,16 +262,16 @@ public class StaffController {
 	        staff.setEmail(email);
 	        staff.setPhoneNumber(phoneNumber);
 	        
-	        if (!photoFile.isEmpty()) {
-	            staff.setImg(photoFile.getOriginalFilename());
-	            try {
-	                File savedFile = new ClassPathResource("static/images/staffs").getFile();
-	                Path path = Paths.get(savedFile.getAbsolutePath() + File.separator + photoFile.getOriginalFilename());
-	                Files.copy(photoFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	            }
-	        }
+//	        if (!photoFile.isEmpty()) {
+//	            staff.setImg(photoFile.getOriginalFilename());
+//	            try {
+//	                File savedFile = new ClassPathResource("static/images/staffs").getFile();
+//	                Path path = Paths.get(savedFile.getAbsolutePath() + File.separator + photoFile.getOriginalFilename());
+//	                Files.copy(photoFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+//	            } catch (Exception e) {
+//	                e.printStackTrace();
+//	            }
+//	        }
 	        
 	        staffService.updateStaff(staffId, staff);
 	    }

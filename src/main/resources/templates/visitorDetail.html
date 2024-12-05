@@ -10,7 +10,8 @@
 	crossorigin="anonymous">
 <title>Visitor Details</title>
 <link rel="icon" href="images/logo.png">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 body {
 	background-color: #ffffff;
@@ -89,7 +90,7 @@ h2 {
 						<img th:src="@{'images/visitors/' + ${visitor.img}}"
 							style="width: 330px; height: 350px; border-radius: 10%;"
 							class="img-fluid img-container" alt="Visitor Image">
-		
+
 					</div>
 					<!-- Table Section -->
 					<div class="col-md-8">
@@ -112,7 +113,15 @@ h2 {
 							</tr>
 							<tr>
 								<th scope="row" class="text-highlight">Check Out</th>
-								<td class="text-success fw-bold" th:text="${visitor.checkOut}"></td>
+								<td>
+									<div th:if="${visitor.checkOut=='pending'}">
+										<p class="text-warning fw-bold" th:text="${visitor.checkOut}"></p>
+									</div>
+
+									<div th:if="${visitor.checkOut!='pending'}">
+										<p class="text-success fw-bold" th:text="${visitor.checkOut}"></p>
+									</div>
+								</td>
 							</tr>
 
 							<tr>
@@ -129,16 +138,17 @@ h2 {
 							</tr>
 						</table>
 						<div>
-						<div th:if="${visitor.govId!=null}">
-						<h3 th:text="'Government id of ' + ${visitor.name}"></h3>
-						<img th:src="@{'images/gov-ids/' + ${visitor.govId}}"
-							style="width: 80%; border-radius: 0%;"
-							class="img-fluid img-container" alt="Visitor Gov Id">
-						</div>
-							
-						<div th:if="${visitor.govId==null}">
-						<h5 class="text-warning" th:text="${visitor.name + ' doesnt submit gov id'}"></h5>
-						</div>
+							<div th:if="${visitor.govId!=null}">
+								<h3 th:text="'Government id of ' + ${visitor.name}"></h3>
+								<img th:src="@{'images/gov-ids/' + ${visitor.govId}}"
+									style="width: 80%; border-radius: 0%;"
+									class="img-fluid img-container" alt="Visitor Gov Id">
+							</div>
+
+							<div th:if="${visitor.govId==null}">
+								<h5 class="text-warning"
+									th:text="${visitor.name + ' doesnt submit gov id'}"></h5>
+							</div>
 						</div>
 					</div>
 				</div>

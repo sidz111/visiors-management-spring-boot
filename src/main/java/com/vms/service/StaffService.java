@@ -21,4 +21,6 @@ public interface StaffService {
 	void deleteStaffById(Long staffId);           //delete by id
 	
 	List<Staff> getStaffByName(String name);        // find by name
+	
+	Staff getStaffByRandomId(Integer randomId);     //find staff by random id
 }

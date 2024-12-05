@@ -12,7 +12,8 @@ public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long staffId;
-
+    
+    private Integer randomId;
     private String name;
     private String department;
     private String email;
@@ -20,7 +21,15 @@ public class Staff {
     private String img;
     private String joiningDate;
 
-    public String getJoiningDate() {
+    public Integer getRandomId() {
+		return randomId;
+	}
+
+	public void setRandomId(Integer randomId) {
+		this.randomId = randomId;
+	}
+
+	public String getJoiningDate() {
 		return joiningDate;
 	}
 
@@ -32,8 +41,8 @@ public class Staff {
         return staffId;
     }
 
-    public void setStaffId(Long staffId) {
-        this.staffId = staffId;
+    public void setStaffId(Long staffId2) {
+        this.staffId = staffId2;
     }
 
     public String getName() {
