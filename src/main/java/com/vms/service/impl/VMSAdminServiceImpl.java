@@ -23,7 +23,27 @@ public class VMSAdminServiceImpl implements VMSAdminService{
 	}
 
 	@Override
-	public ;
+	public VMSAdmin updateVmsAdmin(String email, VMSAdmin vmsAdmin) {
+		VMSAdmin admin = vmsAdminRepository.findByEmail(email);
+		if(admin==null) {
+			return null;
+		}
+		else {
+			vmsAdminRepository.save(admin);
+			return admin;
+		}
+	}
+
+	@Override
+	public String deleteVMSAdString(String email) {
+		vmsAdminRepository.deleteByEmail(email);
+		return "deleted";
+	}
+
+	@Override
+	public VMSAdmin findVmasAdminByEmail(String email) {
+		VMSAdmin vmsAdmin = vmsAdminRepository.findByEmail(email);
+		return vmsAdmin;
 	}
 	
 	@Override
